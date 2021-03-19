@@ -9,6 +9,7 @@ import TableHead from '@material-ui/core/TableHead';
 import TablePagination from '@material-ui/core/TablePagination';
 import TableRow from '@material-ui/core/TableRow';
 import PieChart from './PieChart'
+import StackedChart from "./StackedChart";
 const columns = [
   { id: 'monday', label: 'Monday', minWidth: 170 },
   { id: 'tuesday', label: 'Tuesday', minWidth: 170 },
@@ -81,6 +82,7 @@ export default function CalendarTable() {
                     return (
                       <TableCell key={column.id} align={column.align}>
                         <PieChart />
+                        <StackedChart />
                       </TableCell>
                     );
                   })}
