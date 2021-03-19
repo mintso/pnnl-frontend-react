@@ -1,25 +1,27 @@
-import logo from './logo.svg';
 import './App.css';
+import React from 'react';
+import PieChart from './PieChart'
+import CalendarTable from './CalendarTable'
+import GrafanaChannel from './GrafanaChannel'
 
-function App() {
-	return (
-		<div className='App'>
-			<header className='App-header'>
-				<img src={logo} className='App-logo' alt='logo' />
-				<p>
-					Edit <code>src/App.js</code> and save to reload.
-				</p>
-				<a
-					className='App-link'
-					href='https://jeff.test.commit'
-					target='_blank'
-					rel='noopener noreferrer'
-				>
-					Learn React by doing PNNL project
-				</a>
-			</header>
-		</div>
-	);
+function App(): React.Component {
+  console.log('Hello');
+  
+  return (
+    <div>
+      <div className="App">
+        <header className="App-header">
+        <p >SEB Building</p>
+        </header>
+      </div>
+      <div>
+        <CalendarTable />
+      </div>
+      <div>
+        <GrafanaChannel />
+      </div>
+    </div>
+  );
 }
 
 export default App;
