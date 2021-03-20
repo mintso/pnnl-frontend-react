@@ -21,12 +21,11 @@ class StackedChart extends Component {
             animationEnabled: true,
             exportEnabled: true,
             title: {
-                text: "Operating Expenses of ACME",
+                text: "PNNL StackedBar",
                 fontFamily: "verdana"
             },
             axisY: {
-                title: "in Eur",
-                prefix: "€",
+                title: "Unit",
                 suffix: "k"
             },
             toolTip: {
@@ -43,82 +42,34 @@ class StackedChart extends Component {
             data: [
                 {
                     type: "stackedColumn",
-                    name: "General",
+                    name: "ZoneTemperature",
                     showInLegend: true,
                     yValueFormatString: "#,###k",
                     dataPoints: [
-                        { label: "Jan", y: 14 },
-                        { label: "Feb", y: 12 },
-                        { label: "Mar", y: 14 },
-                        { label: "Apr", y: 13 },
-                        { label: "May", y: 13 },
-                        { label: "Jun", y: 13 },
-                        { label: "Jul", y: 14 },
-                        { label: "Aug", y: 14 },
-                        { label: "Sept", y: 13 },
-                        { label: "Oct", y: 14 },
-                        { label: "Nov", y: 14 },
-                        { label: "Dec", y: 14 }
+                        { label: "0", y: 14 },
+                        { label: "1", y: 12 },
+                        { label: "2", y: 14 },
+                        { label: "3", y: 13 },
+                        { label: "4", y: 13 },
+                        { label: "5", y: 13 },
+                        { label: "6", y: 14 },
+                        { label: "7", y: 14 },
                     ]
                 },
                 {
                     type: "stackedColumn",
-                    name: "Marketing",
+                    name: "ZoneAirflow",
                     showInLegend: true,
                     yValueFormatString: "#,###k",
                     dataPoints: [
-                        { label: "Jan", y: 13 },
-                        { label: "Feb", y: 13 },
-                        { label: "Mar", y: 15 },
-                        { label: "Apr", y: 16 },
-                        { label: "May", y: 17 },
-                        { label: "Jun", y: 17 },
-                        { label: "Jul", y: 18 },
-                        { label: "Aug", y: 18 },
-                        { label: "Sept", y: 17 },
-                        { label: "Oct", y: 18 },
-                        { label: "Nov", y: 18 },
-                        { label: "Dec", y: 18 }
-                    ]
-                },
-                {
-                    type: "stackedColumn",
-                    name: "Sales",
-                    showInLegend: true,
-                    yValueFormatString: "#,###k",
-                    dataPoints: [
-                        { label: "Jan", y: 13 },
-                        { label: "Feb", y: 13 },
-                        { label: "Mar", y: 15 },
-                        { label: "Apr", y: 15 },
-                        { label: "May", y: 15 },
-                        { label: "Jun", y: 15 },
-                        { label: "Jul", y: 16 },
-                        { label: "Aug", y: 17 },
-                        { label: "Sept", y: 17 },
-                        { label: "Oct", y: 18 },
-                        { label: "Nov", y: 19 },
-                        { label: "Dec", y: 20 },
-                    ]
-                },
-                {
-                    type: "stackedColumn",
-                    name: "IT",
-                    showInLegend: true,
-                    yValueFormatString: "#,###k",
-                    dataPoints: [
-                        { label: "Jan", y: 14 },
-                        { label: "Feb", y: 8 },
-                        { label: "Mar", y: 6 },
-                        { label: "Apr", y: 6 },
-                        { label: "May", y: 5 },
-                        { label: "Jun", y: 5 },
-                        { label: "Jul", y: 6 },
-                        { label: "Aug", y: 3 },
-                        { label: "Sept", y: 9 },
-                        { label: "Oct", y: 5 },
-                        { label: "Nov", y: 8 },
-                        { label: "Dec", y: 2 },
+                        { label: "0", y: 13 },
+                        { label: "1", y: 13 },
+                        { label: "2", y: 15 },
+                        { label: "3", y: 16 },
+                        { label: "4", y: 17 },
+                        { label: "5", y: 17 },
+                        { label: "6", y: 18 },
+                        { label: "7", y: 18 },
                     ]
                 }]
         }
