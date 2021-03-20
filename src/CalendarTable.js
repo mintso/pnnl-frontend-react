@@ -9,6 +9,7 @@ import TableHead from '@material-ui/core/TableHead';
 import TablePagination from '@material-ui/core/TablePagination';
 import TableRow from '@material-ui/core/TableRow';
 import PieChart from './PieChart'
+import StackedChart from "./StackedChart";
 const columns = [
   { id: 'monday', label: 'Monday', minWidth: 170 },
   { id: 'tuesday', label: 'Tuesday', minWidth: 170 },
@@ -85,6 +86,38 @@ export default function CalendarTable() {
                     );
                   })}
                 </TableRow>
+              );
+            })}
+          </TableBody>
+        </Table>
+      </TableContainer>
+      <TableContainer>
+        <Table stickyHeader aria-label="sticky table">
+          <TableHead>
+            <TableRow>
+              {columns.map((column) => (
+                  <TableCell
+                      key={column.id}
+                      align={column.align}
+                      style={{ minWidth: column.minWidth }}
+                  >
+                    {column.label}
+                  </TableCell>
+              ))}
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {rows.map((row) => {
+              return (
+                  <TableRow hover role="checkbox" tabIndex={-1} key={row.week}>
+                    {columns.map((column) => {
+                      return (
+                          <TableCell key={column.id} align={column.align}>
+                            <StackedChart />
+                          </TableCell>
+                      );
+                    })}
+                  </TableRow>
               );
             })}
           </TableBody>
