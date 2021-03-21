@@ -9,8 +9,7 @@ import GrafanaChannel from './GrafanaChannel'
 const Views = [
   { label: "Pie Chart", value: <CalendarTable /> },
   { label: "Stacked Bar", value: "<StackedBar />" },
-  { label: "Heat Map", value: "<HeatMap />" },
-  { label: "Grafana", value: <GrafanaChannel /> }
+  { label: "Heat Map", value: "<HeatMap />" }
 ];
 
 
@@ -31,19 +30,16 @@ function App(): React.Component {
         <p >SEB Building</p>
         </header>
       </div>
-      <div style={{width: '200px'}}>
+      <div style={{width: '200px', zIndex:99999}}>
 	<Select placeholder="Select View"
 		options={Views}
 		onChange={handleChange} />
       </div>
+      <div>
 	<p> {selectedView} </p>
-      <div>
       </div>
       <div>
-        <CalendarTable />
-      </div>
-      <div>
-        <GrafanaChannel />
+	<GrafanaChannel />
       </div>
     </div>
   );
