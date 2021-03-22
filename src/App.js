@@ -15,7 +15,7 @@ function App(): React.Component {
         </header>
       </div>
 	  <div>
-		<iframe src="http://ec2-3-140-252-185.us-east-2.compute.amazonaws.com:3000/d/pSc0RlYMzd/pnnl-seb-influx?orgId=1"
+		<iframe src="https://ec2-3-140-252-185.us-east-2.compute.amazonaws.com:3000/d/pSc0RlYMzd/pnnl-seb-influx?orgId=1"
 		 width="100%" height="700px"></iframe>
 	  </div>
       <div>
