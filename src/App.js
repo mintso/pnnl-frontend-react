@@ -5,12 +5,12 @@ import Select from 'react-select';
 import PieChart from './PieChart'
 import CalendarTable from './CalendarTable'
 import HeatMap from './HeatMap'
-import StackedBar from './StackedChart'
+import StackedChart from './StackedChart'
 import GrafanaChannel from './GrafanaChannel'
 
 const Views = [
   { label: "Pie Chart", value: <CalendarTable /> },
-  { label: "Stacked Bar", value: <StackedBar /> },
+  { label: "Stacked Bar", value: <StackedChart /> },
   { label: "Heat Map", value: <HeatMap /> }
 ];
 
