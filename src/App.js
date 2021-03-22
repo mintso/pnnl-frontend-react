@@ -9,9 +9,9 @@ import StackedBar from './StackedChart'
 import GrafanaChannel from './GrafanaChannel'
 
 const Views = [
-  { label: "Pie Chart", value: <CalendarTable /> }, /*Calendar view should only be for PieChart */
-  { label: "Stacked Bar", value: <StackedBar /> }, /* Place holder */
-  { label: "Heat Map", value: <HeatMap /> } /* Place holder */
+  { label: "Pie Chart", value: <CalendarTable /> },
+  { label: "Stacked Bar", value: <StackedBar /> },
+  { label: "Heat Map", value: <HeatMap /> }
 ];
 
 
@@ -40,9 +40,30 @@ function App(): React.Component {
       <div>
 	<p> {selectedView} </p>
       </div>
+	  <div>
+		<iframe src="https://ec2-3-140-252-185.us-east-2.compute.amazonaws.com:3000/d/pSc0RlYMzd/pnnl-seb-influx?orgId=1"
+		 width="100%" height="700px"></iframe>
+	  </div>
       <div>
-	<GrafanaChannel /	>
+        <HeatMap title={"Heat Map of ZoneTemperature"} labels={["Summer Occurrence", "Controlled Summer", "Controlled Winter", "Override Release"]} />
       </div>
+      <div>
+        <HeatMap title={"Heat Map of ZoneAirflow"} labels={["Normal Operation", "Hunting", "Constant", "Override"]} />
+      </div>
+        <div>
+            <iframe
+                src="https://ec2-3-140-252-185.us-east-2.compute.amazonaws.com:3000/d/pSc0RlYMzd/pnnl-seb-influx?orgId=1"
+                width="100%" height="700px"></iframe>
+        </div>
+        <div>
+            <CalendarTable/>
+        </div>
+        <div>
+            <StackedChart/>
+        </div>
+        <div>
+            <GrafanaChannel/>
+        </div>
     </div>
   );
 }
