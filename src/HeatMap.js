@@ -104,4 +104,4 @@ class HeatMap extends React.Component {
 	}
   }
   
-  export default HeatMap;
+export default HeatMap;
