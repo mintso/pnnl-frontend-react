@@ -3,9 +3,13 @@ import React from 'react';
 import PieChart from './PieChart'
 import CalendarTable from './CalendarTable'
 import GrafanaChannel from './GrafanaChannel'
+import moment from 'moment';
 
 function App(): React.Component {
-  console.log('Hello');
+  const date = moment(new Date()).format('YYYY-MM-DD');
+  const link = 'www.google.com';
+  
+  console.log(date);
   
   return (
     <div>
