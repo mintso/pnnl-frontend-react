@@ -11,7 +11,7 @@ import GrafanaChannel from './GrafanaChannel'
 const Views = [
   { label: "Pie Chart", value: <CalendarTable /> },
   { label: "Stacked Bar", value: <StackedChart /> },
-  { label: "Heat Map", value: <HeatMap /> }
+  { label: "Heat Map", value: <HeatMap title={"Heat Map of ZoneTemperature"} labels={["Summer Occurrence", "Controlled Summer", "Controlled Winter", "Override Release"]} /> } /*temp place holder */
 ];
 
 
@@ -40,10 +40,6 @@ function App(): React.Component {
       <div>
 	<p> {selectedView} </p>
       </div>
-	  <div>
-		<iframe src="https://ec2-3-140-252-185.us-east-2.compute.amazonaws.com:3000/d/pSc0RlYMzd/pnnl-seb-influx?orgId=1"
-		 width="100%" height="700px"></iframe>
-	  </div>
       <div>
         <HeatMap title={"Heat Map of ZoneTemperature"} labels={["Summer Occurrence", "Controlled Summer", "Controlled Winter", "Override Release"]} />
       </div>
