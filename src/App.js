@@ -1,8 +1,9 @@
 import './App.css';
 import React from 'react';
-import PieChart from './PieChart'
+import HeatMap from './HeatMap'
+/* import PieChart from './PieChart'
 import CalendarTable from './CalendarTable'
-import GrafanaChannel from './GrafanaChannel'
+import GrafanaChannel from './GrafanaChannel'*/
 
 function App(): React.Component {
   console.log('Hello');
@@ -19,10 +20,10 @@ function App(): React.Component {
 		 width="100%" height="700px"></iframe>
 	  </div>
       <div>
-        <CalendarTable />
+        <HeatMap title={"Heat Map of ZoneTemperature"} labels={["Summer Occurrence", "Controlled Summer", "Controlled Winter", "Override Release"]} />
       </div>
       <div>
-        <GrafanaChannel />
+        <HeatMap title={"Heat Map of ZoneAirflow"} labels={["Normal Operation", "Hunting", "Constant", "Override"]} />
       </div>
     </div>
   );
