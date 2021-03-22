@@ -4,12 +4,14 @@ import { Component } from 'react';
 import Select from 'react-select';
 import PieChart from './PieChart'
 import CalendarTable from './CalendarTable'
+import HeatMap from './HeatMap'
+import StackedBar from './StackedChart'
 import GrafanaChannel from './GrafanaChannel'
 
 const Views = [
-  { label: "Pie Chart", value: <CalendarTable /> },
-  { label: "Stacked Bar", value: "<StackedBar />" },
-  { label: "Heat Map", value: "<HeatMap />" }
+  { label: "Pie Chart", value: <CalendarTable /> }, /*Calendar view should only be for PieChart */
+  { label: "Stacked Bar", value: <StackedBar /> }, /* Place holder */
+  { label: "Heat Map", value: <HeatMap /> } /* Place holder */
 ];
 
 
@@ -19,7 +21,7 @@ function App(): React.Component {
   const [selectedView, setView] = useState("");
 
   const handleChange = (event) => {
-      console.log(event.value);
+     /* console.log(event.value); */
       setView(event.value);
   };
   
@@ -39,7 +41,7 @@ function App(): React.Component {
 	<p> {selectedView} </p>
       </div>
       <div>
-	<GrafanaChannel />
+	<GrafanaChannel /	>
       </div>
     </div>
   );
