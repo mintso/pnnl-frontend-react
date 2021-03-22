@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import CanvasJSReact from './canvasjs.react';
 
 
@@ -7,26 +7,23 @@ class StackedChart extends Component {
         super();
         this.toggleDataSeries = this.toggleDataSeries.bind(this);
     }
-    toggleDataSeries(e){
-        if (typeof(e.dataSeries.visible) === "undefined" || e.dataSeries.visible) {
+
+    toggleDataSeries(e) {
+        if (typeof (e.dataSeries.visible) === "undefined" || e.dataSeries.visible) {
             e.dataSeries.visible = false;
-        }
-        else{
+        } else {
             e.dataSeries.visible = true;
         }
         this.chart.render();
     }
+
     render() {
-        const options = {
+        const zoneTemperature = {
             animationEnabled: true,
             exportEnabled: true,
             title: {
-                text: "PNNL StackedBar",
+                text: "Zone Temperature",
                 fontFamily: "verdana"
-            },
-            axisY: {
-                title: "Unit",
-                suffix: "k"
             },
             toolTip: {
                 shared: true,
@@ -42,45 +39,160 @@ class StackedChart extends Component {
             data: [
                 {
                     type: "stackedColumn",
-                    name: "ZoneTemperature",
+                    name: "Summer Occurrence",
                     showInLegend: true,
-                    yValueFormatString: "#,###k",
                     dataPoints: [
-                        { label: "0", y: 14 },
-                        { label: "1", y: 12 },
-                        { label: "2", y: 14 },
-                        { label: "3", y: 13 },
-                        { label: "4", y: 13 },
-                        { label: "5", y: 13 },
-                        { label: "6", y: 14 },
-                        { label: "7", y: 14 },
+                        {label: "3/20/21", y: 10},
+                        {label: "3/21/21", y: 25},
+                        {label: "3/22/21", y: 25},
+                        {label: "3/23/21", y: 25},
+                        {label: "3/24/21", y: 25},
+                        {label: "3/25/21", y: 25},
+                        {label: "3/26/21", y: 25},
+                        {label: "3/27/21", y: 0},
                     ]
                 },
                 {
                     type: "stackedColumn",
-                    name: "ZoneAirflow",
+                    name: "Controlled Winter",
                     showInLegend: true,
-                    yValueFormatString: "#,###k",
                     dataPoints: [
-                        { label: "0", y: 13 },
-                        { label: "1", y: 13 },
-                        { label: "2", y: 15 },
-                        { label: "3", y: 16 },
-                        { label: "4", y: 17 },
-                        { label: "5", y: 17 },
-                        { label: "6", y: 18 },
-                        { label: "7", y: 18 },
+                        {label: "3/20/21", y: 0},
+                        {label: "3/21/21", y: 0},
+                        {label: "3/22/21", y: 0},
+                        {label: "3/23/21", y: 0},
+                        {label: "3/24/21", y: 0},
+                        {label: "3/25/21", y: 0},
+                        {label: "3/26/21", y: 0},
+                        {label: "3/27/21", y: 20},
                     ]
-                }]
+                },
+                {
+                    type: "stackedColumn",
+                    name: "Controlled Summer",
+                    showInLegend: true,
+                    dataPoints: [
+                        {label: "3/20/21", y: 40},
+                        {label: "3/21/21", y: 25},
+                        {label: "3/22/21", y: 25},
+                        {label: "3/23/21", y: 25},
+                        {label: "3/24/21", y: 25},
+                        {label: "3/25/21", y: 25},
+                        {label: "3/26/21", y: 0},
+                        {label: "3/27/21", y: 0},
+                    ]
+                },
+                {
+                    type: "stackedColumn",
+                    name: "Override Release",
+                    showInLegend: true,
+                    dataPoints: [
+                        {label: "3/20/21", y: 0},
+                        {label: "3/21/21", y: 0},
+                        {label: "3/22/21", y: 0},
+                        {label: "3/23/21", y: 0},
+                        {label: "3/24/21", y: 0},
+                        {label: "3/25/21", y: 0},
+                        {label: "3/26/21", y: 25},
+                        {label: "3/27/21", y: 30},
+                    ]
+                }
+                ]
+        }
+
+        const zoneAirFlow = {
+            animationEnabled: true,
+            exportEnabled: true,
+            title: {
+                text: "Zone AirFlow",
+                fontFamily: "verdana"
+            },
+            toolTip: {
+                shared: true,
+                reversed: true
+            },
+            legend: {
+                verticalAlign: "center",
+                horizontalAlign: "right",
+                reversed: true,
+                cursor: "pointer",
+                itemclick: this.toggleDataSeries
+            },
+            data: [
+                {
+                    type: "stackedColumn",
+                    name: "Normal Operation",
+                    showInLegend: true,
+                    dataPoints: [
+                        {label: "3/20/21", y: 10},
+                        {label: "3/21/21", y: 25},
+                        {label: "3/22/21", y: 25},
+                        {label: "3/23/21", y: 25},
+                        {label: "3/24/21", y: 25},
+                        {label: "3/25/21", y: 25},
+                        {label: "3/26/21", y: 25},
+                        {label: "3/27/21", y: 0},
+                    ]
+                },
+                {
+                    type: "stackedColumn",
+                    name: "Hunting",
+                    showInLegend: true,
+                    dataPoints: [
+                        {label: "3/20/21", y: 0},
+                        {label: "3/21/21", y: 0},
+                        {label: "3/22/21", y: 0},
+                        {label: "3/23/21", y: 0},
+                        {label: "3/24/21", y: 0},
+                        {label: "3/25/21", y: 0},
+                        {label: "3/26/21", y: 0},
+                        {label: "3/27/21", y: 20},
+                    ]
+                },
+                {
+                    type: "stackedColumn",
+                    name: "Constant",
+                    showInLegend: true,
+                    dataPoints: [
+                        {label: "3/20/21", y: 40},
+                        {label: "3/21/21", y: 25},
+                        {label: "3/22/21", y: 25},
+                        {label: "3/23/21", y: 25},
+                        {label: "3/24/21", y: 25},
+                        {label: "3/25/21", y: 25},
+                        {label: "3/26/21", y: 0},
+                        {label: "3/27/21", y: 0},
+                    ]
+                },
+                {
+                    type: "stackedColumn",
+                    name: "Override",
+                    showInLegend: true,
+                    dataPoints: [
+                        {label: "3/20/21", y: 0},
+                        {label: "3/21/21", y: 0},
+                        {label: "3/22/21", y: 0},
+                        {label: "3/23/21", y: 0},
+                        {label: "3/24/21", y: 0},
+                        {label: "3/25/21", y: 0},
+                        {label: "3/26/21", y: 25},
+                        {label: "3/27/21", y: 30},
+                    ]
+                }
+            ]
         }
 
         return (
-            <div>
-                <CanvasJSReact.CanvasJSChart options = {options}
-                               onRef={ref => this.chart = ref}
-                />
-                {/*You can get reference to the chart instance as shown above using onRef. This allows you to access all chart properties and methods*/}
-            </div>
+            <>
+                <div style={{display: 'flex', justifyContent: 'start'}}>
+                    <CanvasJSReact.CanvasJSChart options={zoneTemperature}
+                                                 onRef={ref => this.chart = ref}
+                    />
+                    <CanvasJSReact.CanvasJSChart options={zoneAirFlow}
+                                                 onRef={ref => this.chart = ref}
+                    />
+                </div>
+            </>
         );
     }
 }
