@@ -1,12 +1,9 @@
 import './App.css';
 import React, { useState } from 'react';
-import { Component } from 'react';
 import Select from 'react-select';
-import PieChart from './PieChart'
 import CalendarTable from './CalendarTable'
 import HeatMap from './HeatMap'
 import StackedChart from './StackedChart'
-import GrafanaChannel from './GrafanaChannel'
 import DataAdaptor from './DataAdaptor'
 
 const Views = [
