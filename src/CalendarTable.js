@@ -59,7 +59,7 @@ export default function CalendarTable() {
   return (
     <Paper className={classes.root}>
       <TableContainer>
-        <Table stickyHeader aria-label="sticky table">
+        <Table>
           <TableHead>
             <TableRow>
               {columns.map((column) => (
