@@ -1,4 +1,3 @@
-import { JSON } from 'globalthis/implementation';
 import moment from 'moment';
 
 const DEFAULT_DATE = new Date(0);
@@ -10,7 +9,7 @@ export default function DataAdaptor(dataType, startDate, endDate = DEFAULT_DATE)
     if (endDate.getTime() === DEFAULT_DATE.getTime()) {
         url += '/day/' + dataType + '/' + moment(startDate).format('YYYY-MM-DD');
     } else {
-        url += '/range/' + dataType + '/' + moment(startDate).format('YYYY-MM-DD') + '/' + moment(endDate.format('YYYY-MM-DD'));
+        url += '/range/' + dataType + '/' + moment(startDate).format('YYYY-MM-DD') + '/' + moment(endDate).format('YYYY-MM-DD');
     }
 
     function getData(myCallback) {
