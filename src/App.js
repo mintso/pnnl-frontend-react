@@ -15,7 +15,7 @@ const Views = [
 
 function App(): React.Component {
 
-  const [selectedView, setView] = useState("");
+  const [selectedView, setView] = useState(<CalendarTable />);
 
   const handleChange = (event) => {
       setView(event.value);
