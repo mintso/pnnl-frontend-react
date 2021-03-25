@@ -4,9 +4,10 @@ import Select from 'react-select';
 import CalendarTable from './CalendarTable'
 import HeatMap from './HeatMap'
 import StackedChart from './StackedChart'
+import CalendarTableContainer from './CalendarTableContainer'
 
 const Views = [
-  { label: "Pie Chart", value: <CalendarTable /> },
+  { label: "Pie Chart", value: <CalendarTableContainer /> },
   { label: "Stacked Bar", value: <StackedChart /> },
   { label: "Heat Map", value: <HeatMap title={"Heat Map of ZoneTemperature"} labels={["Summer Occurrence", "Controlled Summer", "Controlled Winter", "Override Release"]} /> } /*temp place holder */
 ];
@@ -14,7 +15,7 @@ const Views = [
 
 function App(): React.Component {
 
-  const [selectedView, setView] = useState("");
+  const [selectedView, setView] = useState(<CalendarTableContainer />);
 
   const handleChange = (event) => {
       setView(event.value);
@@ -29,6 +30,7 @@ function App(): React.Component {
       </div>
       <div style={{width: '200px'}}>
         <Select placeholder="Select View"
+          defaultValue = {{ label: "Pie Chart", value: <CalendarTableContainer /> }}
           options={Views}
           onChange={handleChange} />
       </div>
