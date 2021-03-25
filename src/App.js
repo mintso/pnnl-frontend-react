@@ -15,7 +15,7 @@ const Views = [
 
 function App(): React.Component {
 
-  const [selectedView, setView] = useState("");
+  const [selectedView, setView] = useState(<CalendarTable />);
 
   const handleChange = (event) => {
       setView(event.value);
@@ -31,6 +31,7 @@ function App(): React.Component {
       <div style={{width: '200px'}}>
         <Select placeholder="Select View"
           options={Views}
+	  defaultValue = {{ label: "Pie Chart", value: <CalendarTable /> }}
           onChange={handleChange} />
       </div>
       <div>
