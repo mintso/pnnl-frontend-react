@@ -42,7 +42,6 @@ export default function CalendarTable(props) {
 
   const getData = async () => {
     let res = await DataAdaptor(props.type, START_DATE, END_DATE);
-    console.log(res);
     setDatas(res);
   }
 

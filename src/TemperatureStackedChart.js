@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import {Bar} from 'react-chartjs-2';
 import DataAdaptor from "./DataAdaptor";
 
@@ -22,10 +22,19 @@ const options = {
 
 
 export default function TemperatureStackedChart() {
+    const [tempDataObject, setTempDataObject] = useState({});
     const currentDate = new Date();
     const pastDate = new Date(currentDate.getTime() - (6 * 24 * 60 * 60 * 1000));
 
-    const tempDataObject = DataAdaptor('temperature', pastDate, currentDate);
+    useEffect(() => {
+        getData();
+    }, []);
+
+
+    const getData = async() => {
+        let res = await DataAdaptor('temperature', pastDate, currentDate);
+        setTempDataObject(res);
+    }
     const tempDateArray = [];
     const summerOccurrenceArray = [];
     const controlledWinterArray = [];

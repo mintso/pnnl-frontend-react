@@ -5,7 +5,6 @@ import CalendarTable from './CalendarTable';
 import HeatMap from './HeatMap';
 import AirflowStackedChart from './AirflowStackedChart'
 import TemperatureStackedChart from "./TemperatureStackedChart";
-import StackedChart from './StackedChart';
 import CalendarTableContainer from './CalendarTableContainer';
 import StackChartContainer from './StackChartContainer';
 
@@ -42,27 +41,12 @@ function App(): React.Component {
 	      <p> {selectedView} </p>
       </div>
         <div>
-            <div className="App">
-                <header className="App-header">
-                    <p>SEB Building</p>
-                </header>
-            </div>
-            <div style={{width: '200px'}}>
-                <Select placeholder="Select View"
-                        options={Views}
-                        defaultValue={{label: "Pie Chart", value: <CalendarTable/>}}
-                        onChange={handleChange}/>
-            </div>
-            <div>
-                <p> {selectedView} </p>
-            </div>
-            <div>
-                <iframe
-                    src="https://ec2-3-140-252-185.us-east-2.compute.amazonaws.com:3000/d/pSc0RlYMzd/pnnl-seb-influx?orgId=1"
-                    width="100%" height="700px"></iframe>
-            </div>
+            <iframe
+                src="https://ec2-3-140-252-185.us-east-2.compute.amazonaws.com:3000/d/pSc0RlYMzd/pnnl-seb-influx?orgId=1"
+                width="100%" height="700px"></iframe>
         </div>
-    );
+    </div>
+  );
 }
 
 export default App;
