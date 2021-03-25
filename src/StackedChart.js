@@ -1,58 +1,6 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {Bar} from 'react-chartjs-2';
-
-const temperatureData = {
-    labels: ['3/20/21', '3/21/21', '3/22/21', '3/23/21', '3/24/21', '3/25/21', '3/26/21'],
-    datasets: [
-        {
-            label: 'Summer Occurrence',
-            data: [10, 25, 25, 25, 25, 25, 25, 0],
-            backgroundColor: 'rgb(246, 193, 66)',
-        },
-        {
-            label: 'Controlled Winter',
-            data: [0, 0, 0, 0, 0, 0, 0, 20],
-            backgroundColor: 'rgb(77, 115, 190)',
-        },
-        {
-            label: 'Controlled Summer',
-            data: [40, 25, 25, 25, 25, 25, 0, 0],
-            backgroundColor: 'rgb(223, 130, 68)',
-        },
-        {
-            label: 'Override Release',
-            data: [0, 0, 0, 0, 0, 0, 25, 30],
-            backgroundColor: 'rgb(165, 165, 165)',
-        },
-    ],
-}
-
-const airFlowData = {
-    labels: ['3/20/21', '3/21/21', '3/22/21', '3/23/21', '3/24/21', '3/25/21', '3/26/21'],
-    datasets: [
-        {
-            label: 'Normal Operation',
-            data: [10, 25, 25, 25, 25, 25, 25, 0],
-            backgroundColor: 'rgb(246, 193, 66)',
-        },
-        {
-            label: 'Hunting',
-            data: [0, 0, 0, 0, 0, 0, 0, 20],
-            backgroundColor: 'rgb(77, 115, 190)',
-        },
-        {
-            label: 'Constant',
-            data: [40, 25, 25, 25, 25, 25, 0, 0],
-            backgroundColor: 'rgb(223, 130, 68)',
-        },
-        {
-            label: 'Override',
-            data: [0, 0, 0, 0, 0, 0, 25, 30],
-            backgroundColor: 'rgb(165, 165, 165)',
-        },
-    ],
-}
-
+import DataAdaptor from "./DataAdaptor";
 
 const options = {
     scales: {
@@ -74,6 +22,103 @@ const options = {
 
 
 export default function StackedChart() {
+    const currentDate = new Date(2021, 2, 18);
+    const futureDate = new Date(currentDate.getTime() + (6 * 24 * 60 * 60 * 1000));
+
+    const tempDataObject = DataAdaptor('temperature', currentDate, futureDate);
+    const tempDateArray = [];
+    const summerOccurrenceArray = [];
+    const controlledWinterArray = [];
+    const controlledSummerArray = [];
+    const overrideReleaseArray = [];
+    for (const key in tempDataObject) {
+        tempDateArray.push(key);
+        for(const key2 in tempDataObject[key]) {
+            if(key2 === 'Summer Occurrence') {
+                summerOccurrenceArray.push(tempDataObject[key][key2]);
+            } else if(key2 === 'Controlled Winter') {
+                controlledWinterArray.push(tempDataObject[key][key2]);
+            } else if(key2 === 'Controlled Summer') {
+                controlledSummerArray.push(tempDataObject[key][key2]);
+            } else if(key2 === 'Override Release') {
+                overrideReleaseArray.push(tempDataObject[key][key2]);
+            }
+        }
+    }
+
+    const temperatureData = {
+        labels: tempDateArray,
+        datasets: [
+            {
+                label: 'Summer Occurrence',
+                data: summerOccurrenceArray,
+                backgroundColor: 'rgb(246, 193, 66)',
+            },
+            {
+                label: 'Controlled Winter',
+                data: controlledWinterArray,
+                backgroundColor: 'rgb(77, 115, 190)',
+            },
+            {
+                label: 'Controlled Summer',
+                data: controlledSummerArray,
+                backgroundColor: 'rgb(223, 130, 68)',
+            },
+            {
+                label: 'Override Release',
+                data: overrideReleaseArray,
+                backgroundColor: 'rgb(165, 165, 165)',
+            },
+        ],
+    }
+
+    const airFlowDataObject = DataAdaptor('airflow', currentDate, futureDate);
+    const airflowDateArray = [];
+    const normalOperationArray = [];
+    const huntingArray = [];
+    const constantArray = [];
+    const overrideArray = [];
+    for (const key in airFlowDataObject) {
+        airflowDateArray.push(key);
+        for(const key2 in airFlowDataObject[key]) {
+            if(key2 === 'Normal Operation') {
+                normalOperationArray.push(airFlowDataObject[key][key2]);
+            } else if(key2 === 'Hunting') {
+                huntingArray.push(airFlowDataObject[key][key2]);
+            } else if(key2 === 'Constant') {
+                constantArray.push(airFlowDataObject[key][key2]);
+            } else if(key2 === 'Override') {
+                overrideArray.push(airFlowDataObject[key][key2]);
+            }
+        }
+    }
+
+    const airFlowData = {
+        labels: airflowDateArray,
+        datasets: [
+            {
+                label: 'Normal Operation',
+                data: normalOperationArray,
+                backgroundColor: 'rgb(246, 193, 66)',
+            },
+            {
+                label: 'Hunting',
+                data: huntingArray,
+                backgroundColor: 'rgb(77, 115, 190)',
+            },
+            {
+                label: 'Constant',
+                data: constantArray,
+                backgroundColor: 'rgb(223, 130, 68)',
+            },
+            {
+                label: 'Override',
+                data: overrideArray,
+                backgroundColor: 'rgb(165, 165, 165)',
+            },
+        ],
+    }
+
 
     return (
         <>
@@ -85,7 +130,7 @@ export default function StackedChart() {
                 <div className='header'>
                     <h3 className='title'>Zone AirFlow</h3>
                 </div>
-                <Bar data={airFlowData} options={options}/>
+                {/*<Bar data={airFlowData} options={options}/>*/}
             </div>
         </>
     );
