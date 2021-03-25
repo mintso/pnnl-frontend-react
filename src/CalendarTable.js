@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import Table from '@material-ui/core/Table';
@@ -7,44 +7,21 @@ import TableCell from '@material-ui/core/TableCell';
 import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
-import PieChart from './PieChart'
+import PieChart from './PieChart';
+import DataAdaptor from './DataAdaptor';
+import moment from 'moment';
+
 const columns = [
-  { id: 'monday', label: 'Monday', minWidth: 170 },
-  { id: 'tuesday', label: 'Tuesday', minWidth: 170 },
-  {
-    id: 'wednesday',
-    label: 'Wednesday',
-    minWidth: 170,
-  },
-  {
-    id: 'thursday',
-    label: 'Thursday',
-    minWidth: 170,
-  },
-  {
-    id: 'friday',
-    label: 'Friday',
-    minWidth: 170,
-  },
-  {
-    id: 'saturday',
-    label: 'Saturday',
-    minWidth: 170,
-  },
-  {
-    id: 'sunday',
-    label: 'Sunday',
-    minWidth: 170,
-  },
+  'Monday',
+  'Tuesday',
+  'Wednesday',
+  'Thursday',
+  'Friday',
+  'Saturday',
+  'Sunday'
 ];
 
-const rows = [
-    {week: 1},
-    {week: 2},
-    {week: 3},
-    {week: 4},
-    {week: 5}
-];
+const rows = [0, 1, 2, 3, 4];
 
 const useStyles = makeStyles({
   root: {
@@ -52,8 +29,29 @@ const useStyles = makeStyles({
   },
 });
 
-export default function CalendarTable() {
+const END_DATE = new Date();
+const START_DATE = new Date(END_DATE.getFullYear(), END_DATE.getMonth(), 1);
+
+export default function CalendarTable(props) {
+  const [datas, setDatas] = useState({});
   const classes = useStyles();
+
+  useEffect(() => {
+      getData();
+  }, []);
+
+  const getData = async () => {
+    let res = await DataAdaptor(props.type, START_DATE, END_DATE);
+    console.log(res);
+    setDatas(res);
+  }
+
+  const dummy = {
+    "Controlled Summer": "13",
+    "Controlled Winter": "18",
+    "Override Release": "17",
+    "Summer Occurrence": "18"
+  };
 
   return (
     <Paper className={classes.root}>
@@ -61,13 +59,12 @@ export default function CalendarTable() {
         <Table>
           <TableHead>
             <TableRow>
-              {columns.map((column) => (
+              {columns.map((column, i) => (
                 <TableCell
-                  key={column.id}
-                  align={column.align}
-                  style={{ minWidth: column.minWidth }}
+                  key={column}
+                  style={{ minWidth: 170 }}
                 >
-                  {column.label}
+                  {column}
                 </TableCell>
               ))}
             </TableRow>
@@ -75,11 +72,27 @@ export default function CalendarTable() {
           <TableBody>
             {rows.map((row) => {
               return (
-                <TableRow hover role="checkbox" tabIndex={-1} key={row.week}>
-                  {columns.map((column) => {
+                <TableRow hover role="checkbox" tabIndex={-1} key={row}>
+                  {columns.map((column, i) => {
+                    const day = row * 7 + i + 1 - (7 + START_DATE.getDay() - 1) % 7;
+                    const date = new Date(END_DATE.getFullYear(), END_DATE.getMonth(), day);
+                    if (date.getMonth() !== END_DATE.getMonth()) {
+                      return (<TableCell key={i} />);
+                    }
+                    const string = moment(date).format('YYYY-MM-DD');
+                    if (!(string in datas)) {
+                      return (<TableCell key={i}>
+                                <p>{string}</p>
+                              </TableCell>
+                              );
+                    }
                     return (
-                      <TableCell key={column.id} align={column.align}>
-                        <PieChart />
+                      <TableCell key={i}>
+                        <div>
+                          <p>{string}</p>
+                          <PieChart data={datas[string]}/>
+                        </div>
+                        
                       </TableCell>
                     );
                   })}
