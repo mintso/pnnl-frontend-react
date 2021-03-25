@@ -1,14 +1,16 @@
 import './App.css';
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import Select from 'react-select';
-import CalendarTable from './CalendarTable'
-import HeatMap from './HeatMap'
-import StackedChart from './StackedChart'
-import CalendarTableContainer from './CalendarTableContainer'
+import CalendarTable from './CalendarTable';
+import HeatMap from './HeatMap';
+import AirflowStackedChart from './AirflowStackedChart'
+import TemperatureStackedChart from "./TemperatureStackedChart";
+import CalendarTableContainer from './CalendarTableContainer';
+import StackChartContainer from './StackChartContainer';
 
 const Views = [
   { label: "Pie Chart", value: <CalendarTableContainer /> },
-  { label: "Stacked Bar", value: <StackedChart /> },
+  { label: "Stacked Bar", value: <StackChartContainer /> },
   { label: "Heat Map", value: <HeatMap title={"Heat Map of ZoneTemperature"} labels={["Summer Occurrence", "Controlled Summer", "Controlled Winter", "Override Release"]} /> } /*temp place holder */
 ];
 
