@@ -22,10 +22,10 @@ const options = {
 
 
 export default function StackedChart() {
-    const currentDate = new Date(2021, 2, 18);
-    const futureDate = new Date(currentDate.getTime() + (6 * 24 * 60 * 60 * 1000));
+    const currentDate = new Date();
+    const pastDate = new Date(currentDate.getTime() - (6 * 24 * 60 * 60 * 1000));
 
-    const tempDataObject = DataAdaptor('temperature', currentDate, futureDate);
+    const tempDataObject = DataAdaptor('temperature', pastDate, currentDate);
     const tempDateArray = [];
     const summerOccurrenceArray = [];
     const controlledWinterArray = [];
@@ -72,7 +72,7 @@ export default function StackedChart() {
         ],
     }
 
-    const airFlowDataObject = DataAdaptor('airflow', currentDate, futureDate);
+    const airFlowDataObject = DataAdaptor('airflow', pastDate, currentDate);
     const airflowDateArray = [];
     const normalOperationArray = [];
     const huntingArray = [];
@@ -130,7 +130,7 @@ export default function StackedChart() {
                 <div className='header'>
                     <h3 className='title'>Zone AirFlow</h3>
                 </div>
-                {/*<Bar data={airFlowData} options={options}/>*/}
+                <Bar data={airFlowData} options={options}/>
             </div>
         </>
     );
