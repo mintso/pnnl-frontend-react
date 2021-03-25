@@ -1,31 +1,46 @@
 import './App.css';
 import React, {useState} from 'react';
 import Select from 'react-select';
-import CalendarTable from './CalendarTable'
-import HeatMap from './HeatMap'
+import CalendarTable from './CalendarTable';
+import HeatMap from './HeatMap';
 import AirflowStackedChart from './AirflowStackedChart'
 import TemperatureStackedChart from "./TemperatureStackedChart";
+import StackedChart from './StackedChart';
+import CalendarTableContainer from './CalendarTableContainer';
+import StackChartContainer from './StackChartContainer';
 
 const Views = [
-    {label: "Pie Chart", value: <CalendarTable/>},
-    {label: "Stacked Bar(AirFlow)", value: <AirflowStackedChart/>},
-    {label: "Stacked Bar(Temperature)", value: <TemperatureStackedChart/>},
-    {label: "Heat Map",
-        value: <HeatMap title={"Heat Map of ZoneTemperature"}
-                        labels={["Summer Occurrence", "Controlled Summer", "Controlled Winter", "Override Release"]}/>
-    } /*temp place holder */
+  { label: "Pie Chart", value: <CalendarTableContainer /> },
+  { label: "Stacked Bar", value: <StackChartContainer /> },
+  { label: "Heat Map", value: <HeatMap title={"Heat Map of ZoneTemperature"} labels={["Summer Occurrence", "Controlled Summer", "Controlled Winter", "Override Release"]} /> } /*temp place holder */
 ];
 
 
 function App(): React.Component {
 
-    const [selectedView, setView] = useState(<CalendarTable/>);
+  const [selectedView, setView] = useState(<CalendarTableContainer />);
 
-    const handleChange = (event) => {
-        setView(event.value);
-    };
-
-    return (
+  const handleChange = (event) => {
+      setView(event.value);
+  };
+  
+  return (
+    <div>
+      <div className="App">
+        <header className="App-header">
+        <p >SEB Building</p>
+        </header>
+      </div>
+      <div style={{width: '200px'}}>
+        <Select placeholder="Select View"
+          defaultValue = {{ label: "Pie Chart", value: <CalendarTableContainer /> }}
+          options={Views}
+	  defaultValue = {{ label: "Pie Chart", value: <CalendarTable /> }}
+          onChange={handleChange} />
+      </div>
+      <div>
+	      <p> {selectedView} </p>
+      </div>
         <div>
             <div className="App">
                 <header className="App-header">
