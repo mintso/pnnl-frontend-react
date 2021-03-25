@@ -4,7 +4,6 @@ import Select from 'react-select';
 import CalendarTable from './CalendarTable'
 import HeatMap from './HeatMap'
 import StackedChart from './StackedChart'
-import DataAdaptor from './DataAdaptor'
 
 const Views = [
   { label: "Pie Chart", value: <CalendarTable /> },
