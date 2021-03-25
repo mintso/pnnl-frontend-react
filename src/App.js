@@ -32,6 +32,7 @@ function App(): React.Component {
         <Select placeholder="Select View"
           defaultValue = {{ label: "Pie Chart", value: <CalendarTableContainer /> }}
           options={Views}
+	  defaultValue = {{ label: "Pie Chart", value: <CalendarTable /> }}
           onChange={handleChange} />
       </div>
       <div>
