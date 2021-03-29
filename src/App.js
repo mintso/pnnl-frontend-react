@@ -11,7 +11,7 @@ import StackChartContainer from './StackChartContainer';
 const Views = [
   { label: "Pie Chart", value: <CalendarTableContainer /> },
   { label: "Stacked Bar", value: <StackChartContainer /> },
-  { label: "Heat Map", value: <HeatMap title={"Heat Map of ZoneTemperature"} labels={["Summer Occurrence", "Controlled Summer", "Controlled Winter", "Override Release"]} /> } /*temp place holder */
+  { label: "Heat Map", value: <HeatMap title={"Heat Map of ZoneTemperature"} labels={["Summer Occurrence", "Controlled Summer", "Controlled Winter", "Override Release"]} type="temperature" /> } /*temp place holder */
 ];
 
 
