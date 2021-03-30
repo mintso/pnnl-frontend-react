@@ -19,7 +19,6 @@ export default async function DataAdaptor(dataType, startDate, endDate = DEFAULT
     }
 
     let data = await getData();
-
     return data;
     
 }

@@ -1,30 +1,33 @@
 import React from "react";
 import DataAdaptor from './DataAdaptor';
 import ReactApexChart from "react-apexcharts";
-import { Array, console, Date } from "globalthis/implementation";
+import { console, Date } from "globalthis/implementation";
 
 class HeatMap extends React.Component {
+	
 	constructor(props) {
 	  super(props);
   
 	  const END_DATE = new Date();
-	  const START_DATE = new Date(END_DATE.getFullYear(), END_DATE.getMonth(), 1);
+	  const MONTH = END_DATE.getMonth() + 1;
+	  const YEAR = END_DATE.getFullYear();
+	  const START_DATE = new Date(YEAR, MONTH - 1, 1);
 	  var arr = this.getWeekStartEnd(START_DATE, END_DATE);
 	  this.state = {      
 		series: [{
-			name: '',
+			name: MONTH + '/' + arr[0] + '/' + YEAR + '-' + MONTH + '/' + arr[1] + '/' + YEAR,
 			data: this.generateData(props.type, arr[0], arr[1])
 		  },
 		  {
-			name: '',
+			name: MONTH + '/' + arr[2] + '/' + YEAR + '-' + MONTH + '/' + arr[3] + '/' + YEAR,
 			data: this.generateData(props.type, arr[2], arr[3])
 		  },
 		  {
-			name: '',
+			name: MONTH + '/' + arr[4] + '/' + YEAR + '-' + MONTH + '/' + arr[5] + '/' + YEAR,
 			data: this.generateData(props.type, arr[4], arr[5])
 		  },
 		  {
-			name: '',
+			name: MONTH + '/' + arr[6] + '/' + YEAR + '-' + MONTH + '/' + arr[7] + '/' + YEAR,
 			data: this.generateData(props.type, arr[6], arr[7])
 		  },
 		],
@@ -39,29 +42,30 @@ class HeatMap extends React.Component {
 			  radius: 0,
 			  useFillColorAsStroke: true,
 			  colorScale: {
-				ranges: [{
+				ranges: [
+				  {
 					from: 1,
-					to: 5,
+					to: 1,
 					name: props.labels[0],
-					color: '#00A100'
+					color: '#FFCF9C'
 				  },
 				  {
-					from: 6,
-					to: 12,
+					from: 2,
+					to: 2,
 					name: props.labels[1],
-					color: '#128FD9'
+					color: '#A4D4B4'
 				  },
 				  {
-					from: 13,
-					to: 26,
+					from: 3,
+					to: 3,
 					name: props.labels[2],
-					color: '#FFB200'
+					color: '#3B1C32'
 				  },
 				  {
-					from: 27,
-					to: 28,
+					from: 4,
+					to: 4,
 					name: props.labels[3],
-					color: '#FF0000'
+					color: '#CA054D'
 				  }
 				]
 			  }
@@ -81,45 +85,33 @@ class HeatMap extends React.Component {
 	}
   
 	generateData(dataType, startDate, endDate) {
-		var i = 0;
 		var series = [];
 		var xLabel = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
-		if (startDate != -1) {
+		
+		if (startDate !== -1) {
 			var s = new Date();
 			s.setDate(startDate);
 			var e = new Date();
 			e.setDate(endDate);
-			var diff = (e.getTime()-s.getTime())/(24*3600*1000);
-			while (i < diff) {
-				var x = xLabel[i];
-				s.setDate(startDate + i);
-				e.setDate(startDate + i + 1);
-				DataAdaptor(dataType, s, e)
-				.then((data) => {series.push({
-					x: x,
-					y: data
-				})})
-				.then(() => {series.push({
-					x: x,
-					y: 0})});
-				i++;
-			}
-		} else {
-			while (i < 7) {
-				var x = xLabel[i];
-				series.push({
-					x: x,
-					y: 0});
-				i++;
-			}
-		}
+			DataAdaptor(dataType, s, e)
+			.then((data) => {
+				var array = Object.values(data);
+				for (var i = 0; i < array.length; i++) {
+					var x = xLabel[i];
+					series.push({
+						x: x,
+						y: this.getMax(array[i])
+					})
+				}
+				console.log(series);
+			});
+		} 
 		return series;
 	}
 
 	getWeekStartEnd(startDate, endDate) {
-		console.log(endDate.getDate());
 		var diff = (endDate.getTime()-startDate.getTime())/(24*3600*1000);
-		var A = new Array();
+		var A = [];
 		var start = 1;
 		var end = 7;
 		while (diff > 7) {
@@ -138,13 +130,23 @@ class HeatMap extends React.Component {
 		}
 		return A;
 	}
+
+	getMax(data) {
+		var max = 0;
+		var array = Object.values(data);
+		for (var i = 0; i < array.length; i++) {
+			if (parseInt(array[i]) > parseInt(array[max])) {
+				max = i;
+			}
+		}
+		return max + 1;
+	}
   
 	render() {
 	  return (
 		<div id="chart">
 		<ReactApexChart options={this.state.options} series={this.state.series} type="heatmap" height={350} />
-	  	</div>
-		  
+	  	</div> 
 	  );
 	}
   }
