@@ -1,92 +1,179 @@
 import React, { useState, useEffect } from 'react';
+import DataAdaptor from './DataAdaptor';
 import ReactApexChart from "react-apexcharts";
+import { console, Date, Promise } from "globalthis/implementation";
+import { max } from 'moment';
 
 export default function HeatMap2(props) {
 
+    const DAYS = 27
     const END_DATE = new Date();
-    const START_DATE = new Date(END_DATE - 34);
+    let START_DATE = new Date();
+    let LABELS_IDX = {};
+    
 
-    const [state, setState] = useState({series: [{}],options:{}})
+    const [state, setState] = useState({series: [{
+        name: '',
+        data: [{x: 'default', y: 1}]
+    },
+    {
+        name: '',
+        data: [{x: 'default', y: 2}]
+    },
+    {
+        name: '',
+        data: [{x: 'default', y: 3}]
+    },
+    {
+        name: '',
+        data: [{x: 'default', y: 4}]
+    },
+    ],
+    options: {
+        chart: {
+            height: 350,
+            type: 'heatmap',
+        },
+        plotOptions: {
+            heatmap: {
+                shadeIntensity: 0.5,
+                radius: 0,
+                useFillColorAsStroke: true,
+                colorScale: {
+                    ranges: [
+                        {
+                            from: -1,
+                            to: -1,
+                            name: 'Unavailable',
+                            color: '#DEDEDE'
+                        },
+                        {
+                          from: 0,
+                          to: 0,
+                          name: props.labels[0],
+                          color: '#FFCF9C'
+                        },
+                        {
+                          from: 1,
+                          to: 1,
+                          name: props.labels[1],
+                          color: '#A4D4B4'
+                        },
+                        {
+                          from: 2,
+                          to: 2,
+                          name: props.labels[2],
+                          color: '#3B1C32'
+                        },
+                        {
+                          from: 3,
+                          to: 3,
+                          name: props.labels[3],
+                          color: '#CA054D'
+                        }
+                      ]
+                }
+            }
+        },
+        dataLabels: {
+            enabled: true
+        },
+        stroke: {
+            width: 1
+        },
+        title: {
+            text: props.title
+        },
+    },
+})
 
-    useEffect(() => {
+    useEffect (() => {
+        createLabelIdx();
         getData();
-        getWeekStartEnd(START_DATE,END_DATE)
+
     }, []);
 
-   
-  
-    const getData = async () => {
-    //   let res = await DataAdaptor(props.type, START_DATE, END_DATE);
-    //   setDatas(res);
-        setState({series: [{
-                name: '',
-                data: generateData(7, 22)
-            },
-            {
-                name: '',
-                data: generateData(7, 15)
-            },
-            {
-                name: '',
-                data: generateData(7, 8)
-            },
-            {
-                name: '',
-                data: generateData(7, 1)
-            },
-            ],
-            options: {
-                chart: {
-                    height: 350,
-                    type: 'heatmap',
-                },
-                plotOptions: {
-                    heatmap: {
-                        shadeIntensity: 0.5,
-                        radius: 0,
-                        useFillColorAsStroke: true,
-                        colorScale: {
-                            ranges: [{
-                                from: 1,
-                                to: 5,
-                                name: props.labels[0],
-                                color: '#00A100'
-                            },
-                            {
-                                from: 6,
-                                to: 12,
-                                name: props.labels[1],
-                                color: '#128FD9'
-                            },
-                            {
-                                from: 13,
-                                to: 26,
-                                name: props.labels[2],
-                                color: '#FFB200'
-                            },
-                            {
-                                from: 27,
-                                to: 28,
-                                name: props.labels[3],
-                                color: '#FF0000'
-                            }
-                            ]
-                        }
-                    }
-                },
-                dataLabels: {
-                    enabled: true
-                },
-                stroke: {
-                    width: 1
-                },
-                title: {
-                    text: props.title
-                },
-            },
-        })
-    }
+   const findNextSunday = () =>{
+        const SUNDAY = 0;
+        while (START_DATE < END_DATE) {
+            if (START_DATE.getDay() === SUNDAY) {
+                break;
+            }
+            START_DATE.setTime(START_DATE.getTime() + (1 * 24 * 60 * 60 * 1000));
+        }
+   }; 
 
+   const getStartDate = (callback) =>{
+    START_DATE.setTime(END_DATE.getTime() - (DAYS * 24 * 60 * 60 * 1000));
+    callback();
+   }
+  
+   // Get data by getting Sunday 4 weeks ago
+    const getData = () => {
+        const p = new Promise((resolve, reject)=>{
+            resolve(getStartDate(findNextSunday));
+        }).then(() => { return DataAdaptor(props.type, START_DATE, END_DATE);})
+        .then((res) => {
+            return createSeries(res);
+        }).then((newSeries) => {
+            console.log(newSeries);
+            setState((prevState) => {
+                
+                return {...prevState, series: newSeries}
+            
+        })
+    })
+            //console.log(res)});
+            //console.log(res);
+        
+        
+}
+
+    const createSeries = ((data) =>{
+        const NUM_WEEKS = 4;
+        let series = []
+        const xLabel = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
+        let k = 0;
+        const array = Object.values(data);
+        console.log(array);
+        for (let i=0; i<NUM_WEEKS; i++) {
+            let newRow = []
+            for (let j=0; j<7 ;j++) {
+                const labels = array[k]
+                newRow.push({
+                    x: xLabel[j],
+                    y: findMax(labels)
+                });
+                k++;
+            }
+            series.push(
+                {
+                    name: '',
+                    data: newRow
+                });
+            
+        }
+        console.log(series);
+        return series;
+    });
+
+    const findMax = (labels) => {
+        let maxLabel = ['-1',-1]
+        if (labels) {
+            for (const key in labels) {
+                if (parseInt(labels[key]) > maxLabel[1]){
+                    maxLabel = [key, labels[key]]
+                }
+                //console.log(`${key}: ${labels[key]}`);
+            }
+            return LABELS_IDX[maxLabel[0]];
+        } else {
+            console.log("No data");
+            return LABELS_IDX['-1'];
+        }
+        
+       
+    }
     
 
     const generateData = ((count, ymin) =>{
@@ -107,34 +194,15 @@ export default function HeatMap2(props) {
 		return series;
 	});
 
-    const getWeekStartEnd = ((startDate, endDate) => {
-		var diff = (endDate.getTime()-startDate.getTime())/(24*3600*1000);
-		var A = [];
-		var start = 1;
-		var end = 7;
-		while (diff > 7) {
-			A.push(start);
-			A.push(end);
-			end += 7;
-			start += 7;
-			diff -= 7;
-		}
-		if (diff > 0) {
-			A.push(start);
-			A.push(endDate.getDate());
-		}
-		while (A.length < 8) {
-			A.push(-1);
-		}
-        console.log(A)
-		return A;
-	});
-
-    const getSundayFourWeeksAgo = () => {
-
-    }
+    // map labels to a number
+    const createLabelIdx = () => {
+        LABELS_IDX['-1'] = -1;
+        for (let i=0; i<props.labels.length;i++) {
+            LABELS_IDX[props.labels[i]] = i;
+        }
+        //console.log('LABEL IDX: ' + Object.values(LABELS_IDX));
         
-
+    }
 
     return (
         <div id="chart">
