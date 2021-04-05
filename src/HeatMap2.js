@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import DataAdaptor from './DataAdaptor';
 import ReactApexChart from "react-apexcharts";
 import { console, Date, Promise } from "globalthis/implementation";
-import { max } from 'moment';
 
 export default function HeatMap2(props) {
 
@@ -40,6 +39,7 @@ export default function HeatMap2(props) {
                 radius: 0,
                 useFillColorAsStroke: true,
                 colorScale: {
+                    // TODO: this needs to be dynamic
                     ranges: [
                         {
                             from: -1,
@@ -123,8 +123,6 @@ export default function HeatMap2(props) {
             
         })
     })
-            //console.log(res)});
-            //console.log(res);
         
         
 }
@@ -134,11 +132,17 @@ export default function HeatMap2(props) {
         let series = []
         const xLabel = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
         let k = 0;
+        const keys = Object.keys(data);
         const array = Object.values(data);
         console.log(array);
         for (let i=0; i<NUM_WEEKS; i++) {
             let newRow = []
+            let newName = '';
             for (let j=0; j<7 ;j++) {
+                if (j === 0) {
+                    const dateEnd = new Date(new Date(keys[k]).getTime() + (6 * 24 * 60 * 60 * 1000))
+                    newName = keys[k] + ' to ' + dateEnd.getFullYear()+'-'+formatMonth(dateEnd)+'-'+formatDate(dateEnd);
+                }
                 const labels = array[k]
                 newRow.push({
                     x: xLabel[j],
@@ -148,7 +152,7 @@ export default function HeatMap2(props) {
             }
             series.push(
                 {
-                    name: '',
+                    name: newName,
                     data: newRow
                 });
             
@@ -173,6 +177,16 @@ export default function HeatMap2(props) {
         }
         
        
+    }
+
+    const formatDate = (date) => {
+        return ("0" + date.getDate()).slice(-2)
+
+    }
+
+    const formatMonth = (date) => {
+        return ("0" + (date.getMonth() + 1)).slice(-2)
+
     }
     
 
