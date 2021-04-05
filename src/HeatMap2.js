@@ -13,19 +13,19 @@ export default function HeatMap2(props) {
 
     const [state, setState] = useState({series: [{
         name: '',
-        data: [{x: 'default', y: 1}]
+        data: []
     },
     {
         name: '',
-        data: [{x: 'default', y: 2}]
+        data: []
     },
     {
         name: '',
-        data: [{x: 'default', y: 3}]
+        data: []
     },
     {
         name: '',
-        data: [{x: 'default', y: 4}]
+        data: []
     },
     ],
     options: {
@@ -76,7 +76,7 @@ export default function HeatMap2(props) {
             }
         },
         dataLabels: {
-            enabled: true
+            enabled: false
         },
         stroke: {
             width: 1
@@ -108,7 +108,7 @@ export default function HeatMap2(props) {
     callback();
    }
   
-   // Get data by getting Sunday 4 weeks ago
+   // Get data by getting Sunday 4 weeks ago, retrieve data, store in series format, update state
     const getData = () => {
         const p = new Promise((resolve, reject)=>{
             resolve(getStartDate(findNextSunday));
@@ -126,6 +126,7 @@ export default function HeatMap2(props) {
         
         
 }
+
 
     const createSeries = ((data) =>{
         const NUM_WEEKS = 4;
@@ -158,7 +159,7 @@ export default function HeatMap2(props) {
             
         }
         console.log(series);
-        return series;
+        return series.reverse();
     });
 
     const findMax = (labels) => {
@@ -188,25 +189,6 @@ export default function HeatMap2(props) {
         return ("0" + (date.getMonth() + 1)).slice(-2)
 
     }
-    
-
-    const generateData = ((count, ymin) =>{
-		var i = 0;
-		var series = [];
-		var xLabel = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
-		var yCounter = ymin
-		while (i < count) {
-		  var x = xLabel[i];
-		  var y = yCounter;
-		  series.push({
-			x: x,
-			y: y
-		  });
-		  i++;
-		  yCounter++;
-		}
-		return series;
-	});
 
     // map labels to a number
     const createLabelIdx = () => {
@@ -214,7 +196,6 @@ export default function HeatMap2(props) {
         for (let i=0; i<props.labels.length;i++) {
             LABELS_IDX[props.labels[i]] = i;
         }
-        //console.log('LABEL IDX: ' + Object.values(LABELS_IDX));
         
     }
 
