@@ -186,7 +186,7 @@ export default function HeatMap(props) {
         callback();
    }
 
-   // Revise StartDate until it reaches a Sunday After
+   // Revise StartDate until it reaches the Sunday After
    const findNextSunday = () =>{
         const SUNDAY = 0;
         while (START_DATE < END_DATE) {
