@@ -11,6 +11,7 @@ export default function HeatMap(props) {
     let START_DATE = new Date();
     let LABELS_IDX = {};
 
+    // Beginning state for data and options for heatmap 
     const [state, setState] = useState({series: [
         {
             name: '',
@@ -88,6 +89,7 @@ export default function HeatMap(props) {
         },
     })
 
+    // changes to heatmap start here
     useEffect (() => {
         createLabelIdx(); // map labels to index
         getData();
@@ -108,6 +110,8 @@ export default function HeatMap(props) {
         })  
     }
 
+    // creates 4 weeks of data based on identifying the label with largest frequency
+    // data not available is returned as a string '-1'
     const createSeries = ((data) =>{
         const NUM_WEEKS = 4;
         let series = []
@@ -115,7 +119,7 @@ export default function HeatMap(props) {
         let k = 0;
         const data_keys = Object.keys(data);
         const data_values = Object.values(data);
-        console.log(data_values);
+        
         for (let i=0; i<NUM_WEEKS; i++) {
             let newRow = []
             let newName = '';
@@ -131,6 +135,7 @@ export default function HeatMap(props) {
                     x: xLabel[j],
                     y: findMax(labels)
                 });
+                // increment one to iterate through all data values
                 k++;
             }
             series.push(
@@ -160,12 +165,14 @@ export default function HeatMap(props) {
         }
     }
 
+    // format date to have 0 in front if single digit
     const formatDate = (date) => { return ("0" + date.getDate()).slice(-2) }
-
+    // format month to have 0 in front if single digit
     const formatMonth = (date) => { return ("0" + (date.getMonth() + 1)).slice(-2) }
 
-    // map labels to a number
+    // map prediction labels to a number
     const createLabelIdx = () => {
+        // A label with "-1" means that there is no data for that day
         LABELS_IDX['-1'] = -1;
         for (let i=0; i<props.labels.length; i++) {
             LABELS_IDX[props.labels[i]] = i;
@@ -191,6 +198,7 @@ export default function HeatMap(props) {
         }
     }; 
 
+    // Helps calculate the worth of  "numDays" days based on time 
     const calculatedDays = (numDays) => {
         return numDays * 24 * 60 * 60 * 1000;
     }
