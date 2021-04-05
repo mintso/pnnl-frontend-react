@@ -49,28 +49,28 @@ export default function HeatMap(props) {
                                 color: '#DEDEDE'
                             },
                             {
-                            from: 0,
-                            to: 0,
-                            name: props.labels[0],
-                            color: '#FFCF9C'
+                                from: 0,
+                                to: 0,
+                                name: props.labels[0],
+                                color: '#FFCF9C'
                             },
                             {
-                            from: 1,
-                            to: 1,
-                            name: props.labels[1],
-                            color: '#A4D4B4'
+                                from: 1,
+                                to: 1,
+                                name: props.labels[1],
+                                color: '#A4D4B4'
                             },
                             {
-                            from: 2,
-                            to: 2,
-                            name: props.labels[2],
-                            color: '#3B1C32'
+                                from: 2,
+                                to: 2,
+                                name: props.labels[2],
+                                color: '#3B1C32'
                             },
                             {
-                            from: 3,
-                            to: 3,
-                            name: props.labels[3],
-                            color: '#CA054D'
+                                from: 3,
+                                to: 3,
+                                name: props.labels[3],
+                                color: '#CA054D'
                             }
                         ]
                     }
@@ -113,9 +113,9 @@ export default function HeatMap(props) {
         let series = []
         const xLabel = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
         let k = 0;
-        const keys = Object.keys(data);
-        const array = Object.values(data);
-        console.log(array);
+        const data_keys = Object.keys(data);
+        const data_values = Object.values(data);
+        console.log(data_values);
         for (let i=0; i<NUM_WEEKS; i++) {
             let newRow = []
             let newName = '';
@@ -123,10 +123,10 @@ export default function HeatMap(props) {
             for (let j=0; j<DAYS_PER_WEEK; j++) {
                 // create dates on y axis
                 if (j === 0) {
-                    const dateEnd = new Date(new Date(keys[k]).getTime() + calculatedDays(6))
-                    newName = keys[k] + ' to ' + dateEnd.getFullYear() + '-' + formatMonth(dateEnd) + '-' + formatDate(dateEnd);
+                    const dateEnd = new Date(new Date(data_keys[k]).getTime() + calculatedDays(7))
+                    newName = data_keys[k] + ' to ' + dateEnd.getFullYear() + '-' + formatMonth(dateEnd) + '-' + formatDate(dateEnd);
                 }
-                const labels = array[k]
+                const labels = data_values[k]
                 newRow.push({
                     x: xLabel[j],
                     y: findMax(labels)
@@ -158,8 +158,6 @@ export default function HeatMap(props) {
         } else {
             return LABELS_IDX['-1'];
         }
-        
-       
     }
 
     const formatDate = (date) => { return ("0" + date.getDate()).slice(-2) }
