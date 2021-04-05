@@ -6,6 +6,7 @@ import { console, Date, Promise } from "globalthis/implementation";
 export default function HeatMap(props) {
 
     const DAYS = 27 // used to help pick the soonest sunday 27 DAYS before current date
+    const DAYS_PER_WEEK = 7;
     const END_DATE = new Date();
     let START_DATE = new Date();
     let LABELS_IDX = {};
@@ -90,25 +91,22 @@ export default function HeatMap(props) {
     useEffect (() => {
         createLabelIdx(); // map labels to index
         getData();
-
     }, []);
   
    // Get data by getting Sunday 4 weeks ago, retrieve data, store in series format, update state
     const getData = () => {
         const p = new Promise((resolve, reject)=>{
             resolve(getStartDate(findNextSunday));
-        }).then(() => { return DataAdaptor(props.type, START_DATE, END_DATE);})
+        }).then(() => { return DataAdaptor(props.type, START_DATE, END_DATE); })
         .then((res) => {
             return createSeries(res);
         }).then((newSeries) => {
             console.log(newSeries);
             setState((prevState) => {
-                
-                return {...prevState, series: newSeries}
-            
-        })
-    })  
-}
+                return { ...prevState, series: newSeries }
+            })
+        })  
+    }
 
     const createSeries = ((data) =>{
         const NUM_WEEKS = 4;
@@ -121,10 +119,12 @@ export default function HeatMap(props) {
         for (let i=0; i<NUM_WEEKS; i++) {
             let newRow = []
             let newName = '';
-            for (let j=0; j<7 ;j++) {
+            
+            for (let j=0; j<DAYS_PER_WEEK; j++) {
+                // create dates on y axis
                 if (j === 0) {
                     const dateEnd = new Date(new Date(keys[k]).getTime() + calculatedDays(6))
-                    newName = keys[k] + ' to ' + dateEnd.getFullYear()+'-'+formatMonth(dateEnd)+'-'+formatDate(dateEnd);
+                    newName = keys[k] + ' to ' + dateEnd.getFullYear() + '-' + formatMonth(dateEnd) + '-' + formatDate(dateEnd);
                 }
                 const labels = array[k]
                 newRow.push({
@@ -144,17 +144,18 @@ export default function HeatMap(props) {
         return series.reverse();
     });
 
+    // if a label exists, find the most frequent label
     const findMax = (labels) => {
         let maxLabel = ['-1',-1]
         if (labels) {
             for (const key in labels) {
-                if (parseInt(labels[key]) > maxLabel[1]){
+                if (parseInt(labels[key]) > maxLabel[1]) {
                     maxLabel = [key, labels[key]]
                 }
             }
             return LABELS_IDX[maxLabel[0]];
+        // return '-1' as a label if there is no data    
         } else {
-            console.log("No data");
             return LABELS_IDX['-1'];
         }
         
@@ -171,7 +172,6 @@ export default function HeatMap(props) {
         for (let i=0; i<props.labels.length; i++) {
             LABELS_IDX[props.labels[i]] = i;
         }
-        
     }
 
    // Get start date by getting first Sunday 4 weeks ago 
@@ -188,6 +188,7 @@ export default function HeatMap(props) {
             if (START_DATE.getDay() === SUNDAY) {
                 break;
             }
+            // set start day one day forward
             START_DATE.setTime(START_DATE.getTime() + calculatedDays(1));
         }
     }; 
