@@ -5,108 +5,93 @@ import { console, Date, Promise } from "globalthis/implementation";
 
 export default function HeatMap2(props) {
 
-    const DAYS = 27
+    const DAYS = 27 // used to help pick the soonest sunday 27 DAYS before current date
     const END_DATE = new Date();
     let START_DATE = new Date();
     let LABELS_IDX = {};
-    
 
-    const [state, setState] = useState({series: [{
-        name: '',
-        data: []
-    },
-    {
-        name: '',
-        data: []
-    },
-    {
-        name: '',
-        data: []
-    },
-    {
-        name: '',
-        data: []
-    },
-    ],
-    options: {
-        chart: {
-            height: 350,
-            type: 'heatmap',
+    const [state, setState] = useState({series: [
+        {
+            name: '',
+            data: []
         },
-        plotOptions: {
-            heatmap: {
-                shadeIntensity: 0.5,
-                radius: 0,
-                useFillColorAsStroke: true,
-                colorScale: {
-                    // TODO: this needs to be dynamic
-                    ranges: [
-                        {
-                            from: -1,
-                            to: -1,
-                            name: 'Unavailable',
-                            color: '#DEDEDE'
-                        },
-                        {
-                          from: 0,
-                          to: 0,
-                          name: props.labels[0],
-                          color: '#FFCF9C'
-                        },
-                        {
-                          from: 1,
-                          to: 1,
-                          name: props.labels[1],
-                          color: '#A4D4B4'
-                        },
-                        {
-                          from: 2,
-                          to: 2,
-                          name: props.labels[2],
-                          color: '#3B1C32'
-                        },
-                        {
-                          from: 3,
-                          to: 3,
-                          name: props.labels[3],
-                          color: '#CA054D'
-                        }
-                      ]
+        {
+            name: '',
+            data: []
+        },
+        {
+            name: '',
+            data: []
+        },
+        {
+            name: '',
+            data: []
+        },
+        ],
+        options: {
+            chart: {
+                height: 350,
+                type: 'heatmap',
+            },
+            plotOptions: {
+                heatmap: {
+                    shadeIntensity: 0.5,
+                    radius: 0,
+                    useFillColorAsStroke: true,
+                    colorScale: {
+                        // TODO: this needs to be dynamic
+                        ranges: [
+                            {
+                                from: -1,
+                                to: -1,
+                                name: 'Unavailable',
+                                color: '#DEDEDE'
+                            },
+                            {
+                            from: 0,
+                            to: 0,
+                            name: props.labels[0],
+                            color: '#FFCF9C'
+                            },
+                            {
+                            from: 1,
+                            to: 1,
+                            name: props.labels[1],
+                            color: '#A4D4B4'
+                            },
+                            {
+                            from: 2,
+                            to: 2,
+                            name: props.labels[2],
+                            color: '#3B1C32'
+                            },
+                            {
+                            from: 3,
+                            to: 3,
+                            name: props.labels[3],
+                            color: '#CA054D'
+                            }
+                        ]
+                    }
                 }
-            }
+            },
+            dataLabels: {
+                enabled: false
+            },
+            stroke: {
+                width: 1
+            },
+            title: {
+                text: props.title
+            },
         },
-        dataLabels: {
-            enabled: false
-        },
-        stroke: {
-            width: 1
-        },
-        title: {
-            text: props.title
-        },
-    },
-})
+    })
 
     useEffect (() => {
         createLabelIdx();
         getData();
 
     }, []);
-
-   const findNextSunday = () =>{
-        const SUNDAY = 0;
-        while (START_DATE < END_DATE) {
-            if (START_DATE.getDay() === SUNDAY) {
-                break;
-            }
-            START_DATE.setTime(START_DATE.getTime() + (1 * 24 * 60 * 60 * 1000));
-        }
-   }; 
-
-   const getStartDate = (callback) =>{
-    START_DATE.setTime(END_DATE.getTime() - (DAYS * 24 * 60 * 60 * 1000));
-    callback();
-   }
   
    // Get data by getting Sunday 4 weeks ago, retrieve data, store in series format, update state
     const getData = () => {
@@ -122,11 +107,8 @@ export default function HeatMap2(props) {
                 return {...prevState, series: newSeries}
             
         })
-    })
-        
-        
+    })  
 }
-
 
     const createSeries = ((data) =>{
         const NUM_WEEKS = 4;
@@ -141,7 +123,7 @@ export default function HeatMap2(props) {
             let newName = '';
             for (let j=0; j<7 ;j++) {
                 if (j === 0) {
-                    const dateEnd = new Date(new Date(keys[k]).getTime() + (6 * 24 * 60 * 60 * 1000))
+                    const dateEnd = new Date(new Date(keys[k]).getTime() + calculatedDays(6))
                     newName = keys[k] + ' to ' + dateEnd.getFullYear()+'-'+formatMonth(dateEnd)+'-'+formatDate(dateEnd);
                 }
                 const labels = array[k]
@@ -169,7 +151,6 @@ export default function HeatMap2(props) {
                 if (parseInt(labels[key]) > maxLabel[1]){
                     maxLabel = [key, labels[key]]
                 }
-                //console.log(`${key}: ${labels[key]}`);
             }
             return LABELS_IDX[maxLabel[0]];
         } else {
@@ -180,23 +161,39 @@ export default function HeatMap2(props) {
        
     }
 
-    const formatDate = (date) => {
-        return ("0" + date.getDate()).slice(-2)
+    const formatDate = (date) => { return ("0" + date.getDate()).slice(-2) }
 
-    }
-
-    const formatMonth = (date) => {
-        return ("0" + (date.getMonth() + 1)).slice(-2)
-
-    }
+    const formatMonth = (date) => { return ("0" + (date.getMonth() + 1)).slice(-2) }
 
     // map labels to a number
     const createLabelIdx = () => {
         LABELS_IDX['-1'] = -1;
-        for (let i=0; i<props.labels.length;i++) {
+        for (let i=0; i<props.labels.length; i++) {
             LABELS_IDX[props.labels[i]] = i;
         }
         
+    }
+
+   // Get start date by getting first Sunday 4 weeks ago 
+   const getStartDate = (callback) =>{
+        START_DATE.setTime(END_DATE.getTime() - calculatedDays(DAYS));
+        // callback is findNextSunday
+        callback();
+   }
+
+   // Revise StartDate until it reaches a Sunday After
+   const findNextSunday = () =>{
+        const SUNDAY = 0;
+        while (START_DATE < END_DATE) {
+            if (START_DATE.getDay() === SUNDAY) {
+                break;
+            }
+            START_DATE.setTime(START_DATE.getTime() + calculatedDays(1));
+        }
+    }; 
+
+    const calculatedDays = (numDays) => {
+        return numDays * 24 * 60 * 60 * 1000;
     }
 
     return (
