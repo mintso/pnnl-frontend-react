@@ -45,7 +45,6 @@ export default function CalendarTable(props) {
     let res = await DataAdaptor(props.type, START_DATE, END_DATE);
     setDatas(res);
   }
-  console.log(datas);
 
   return (
     <Paper className={classes.root}>
