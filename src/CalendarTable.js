@@ -30,7 +30,7 @@ const useStyles = makeStyles({
   },
 });
 
-const END_DATE = new Date();
+const END_DATE = moment().subtract(1, 'days').toDate();
 const START_DATE = GetStartDate();
 
 export default function CalendarTable(props) {
@@ -45,13 +45,7 @@ export default function CalendarTable(props) {
     let res = await DataAdaptor(props.type, START_DATE, END_DATE);
     setDatas(res);
   }
-
-  const dummy = {
-    "Controlled Summer": "13",
-    "Controlled Winter": "18",
-    "Override Release": "17",
-    "Summer Occurrence": "18"
-  };
+  console.log(datas);
 
   return (
     <Paper className={classes.root}>
@@ -79,6 +73,17 @@ export default function CalendarTable(props) {
                     const string = moment(date).format('YYYY-MM-DD');
                     if (!(string in datas)) {
                       return (<TableCell key={i} />);
+                    }
+                    for (const label in datas[string]) {
+                      if (datas[string][label] === '-1') {
+                        return (
+                          <TableCell key={i}>
+                            <div>
+                              <p>{string}</p>
+                              <p>No Data</p>
+                            </div>
+                          </TableCell>);
+                      }
                     }
                     return (
                       <TableCell key={i}>
