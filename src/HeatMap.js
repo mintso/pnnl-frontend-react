@@ -83,9 +83,9 @@ export default function HeatMap(props) {
             stroke: {
                 width: 1
             },
-            title: {
+            /*title: {
                 text: props.title
-            },
+            },*/
         },
     })
 

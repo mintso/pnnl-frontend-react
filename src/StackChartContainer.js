@@ -3,8 +3,9 @@ import TemperatureStackedChart from "./TemperatureStackedChart";
 
 export default function StackChartContainer() {
     return (
-        <div>
+        <div className = "border">
             <AirflowStackedChart />
+	    <p style={{borderTop:"1px solid black"}}></p>
             <TemperatureStackedChart />
         </div>
     );
