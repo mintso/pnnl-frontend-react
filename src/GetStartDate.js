@@ -1,6 +1,6 @@
 import moment from 'moment';
 
-const END_DATE = moment(new Date(2021, 3, 5)).subtract(1, 'days').toDate();
+const END_DATE = moment().subtract(1, 'days').toDate();
 
 export default function GetStartDate() {
     let offset = (7 - moment(END_DATE).subtract(28, 'days').toDate().getDay()) % 7;
