@@ -1,3 +1,4 @@
+import moment from 'moment';
 const xLabel = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
 const DAYS_PER_WEEK = 7;
 
@@ -14,7 +15,7 @@ export default  function GetHeatMapMonth(data, LABELS_IDX) {
         for (let j=0; j<DAYS_PER_WEEK; j++) {   // create dates on y axis
             
             if (j === 0) {
-                const dateEnd = new Date(new Date(data_keys[k]).getTime() + calculatedDays(7))
+                const dateEnd = moment(new Date(data_keys[k])).add(7, 'days').toDate();
                 newName = data_keys[k] + ' to ' + dateEnd.getFullYear() + '-' + formatMonth(dateEnd) + '-' + formatDate(dateEnd);
             }
             const labels = data_values[k]
@@ -50,12 +51,6 @@ const findMax = (labels, LABELS_IDX) => { // if a label exists, find the most fr
     }
 }
 
-// format date to have 0 in front if single digit
-const formatDate = (date) => { return ("0" + date.getDate()).slice(-2) }
-// format month to have 0 in front if single digit
-const formatMonth = (date) => { return ("0" + (date.getMonth() + 1)).slice(-2) }
+const formatDate = (date) => { return ("0" + date.getDate()).slice(-2) } // format date to have 0 in front if single digit
 
-// Helps calculate the worth of  "numDays" days based on time 
-const calculatedDays = (numDays) => {
-    return numDays * 24 * 60 * 60 * 1000;
-}
+const formatMonth = (date) => { return ("0" + (date.getMonth() + 1)).slice(-2) } // format month to have 0 in front if single digit
