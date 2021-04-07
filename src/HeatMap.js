@@ -35,6 +35,9 @@ export default function HeatMap(props) {
             chart: {
                 height: 350,
                 type: 'heatmap',
+                toolbar: {
+                    show: false
+                  }
             },
             plotOptions: {
                 heatmap: {

@@ -23,7 +23,6 @@ export default  function GetHeatMapMonth(data, LABELS_IDX) {
                 x: xLabel[j],
                 y: findMax(labels, LABELS_IDX)
             });
-            
             k++; // increment one to iterate through all data values
         }
         series.push(
