@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import DataAdaptor from './DataAdaptor';
 import ReactApexChart from "react-apexcharts";
-import { console, Date, Promise } from "globalthis/implementation";
+import { Date, Promise } from "globalthis/implementation";
 import GetHeatMapMonth from './GetHeatMapMonth';
+import moment from 'moment';
+import GetStartDate from './GetStartDate';
 
 export default function HeatMap(props) {
 
-    const DAYS = 27 // used to help pick the soonest sunday 27 DAYS before current date
-
-    const END_DATE = new Date();
+    const END_DATE = moment().subtract(1, 'days').toDate();
     let START_DATE = new Date();
     let LABELS_IDX = {};
 
@@ -99,14 +99,15 @@ export default function HeatMap(props) {
    // Get data by getting Sunday 4 weeks ago, retrieve data, store in series format, update state
     const getData = () => {
         const p = new Promise((resolve, reject)=>{
-            resolve(getStartDate(findNextSunday));
-        }).then(() => { return DataAdaptor(props.type, START_DATE, END_DATE); })
+            resolve(START_DATE.setTime(GetStartDate()));
+        })
+        .then(() => { return DataAdaptor(props.type, START_DATE, END_DATE); })
         .then((res) => {
             // creates 4 weeks of data based on identifying the label with largest frequency
             // data not available is returned as a string '-1'
             return GetHeatMapMonth(res, LABELS_IDX);
-        }).then((newSeries) => {
-            console.log(newSeries);
+        })
+        .then((newSeries) => {
             setState((prevState) => {
                 return { ...prevState, series: newSeries }
             })
@@ -120,30 +121,6 @@ export default function HeatMap(props) {
         for (let i=0; i<props.labels.length; i++) {
             LABELS_IDX[props.labels[i]] = i;
         }
-    }
-
-   // Get start date by getting first Sunday 4 weeks ago 
-   const getStartDate = (callback) =>{
-        START_DATE.setTime(END_DATE.getTime() - calculatedDays(DAYS));
-        // callback is findNextSunday
-        callback();
-   }
-
-   // Revise StartDate until it reaches the Sunday After
-   const findNextSunday = () =>{
-        const SUNDAY = 0;
-        while (START_DATE < END_DATE) {
-            if (START_DATE.getDay() === SUNDAY) {
-                break;
-            }
-            // set start day one day forward
-            START_DATE.setTime(START_DATE.getTime() + calculatedDays(1));
-        }
-    }; 
-
-    // Helps calculate the worth of  "numDays" days based on time 
-    const calculatedDays = (numDays) => {
-        return numDays * 24 * 60 * 60 * 1000;
     }
 
     return (

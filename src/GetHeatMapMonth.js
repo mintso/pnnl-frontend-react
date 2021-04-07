@@ -35,28 +35,27 @@ export default  function GetHeatMapMonth(data, LABELS_IDX) {
     return series.reverse();
 }
 
-    
-    const findMax = (labels, LABELS_IDX) => { // if a label exists, find the most frequent label
-        let maxLabel = ['-1',-1]
-        if (labels) {
-            for (const key in labels) {
-                if (parseInt(labels[key]) > maxLabel[1]) {
-                    maxLabel = [key, labels[key]]
-                }
+const findMax = (labels, LABELS_IDX) => { // if a label exists, find the most frequent label
+    let maxLabel = ['-1',-1]
+    if (labels) {
+        for (const key in labels) {
+            if (parseInt(labels[key]) > maxLabel[1]) {
+                maxLabel = [key, labels[key]]
             }
-            return LABELS_IDX[maxLabel[0]];
-          
-        } else {
-            return LABELS_IDX['-1']; // return '-1' as a label if there is no data  
         }
+        return LABELS_IDX[maxLabel[0]];
+        
+    } else {
+        return LABELS_IDX['-1']; // return '-1' as a label if there is no data  
     }
+}
 
-    // format date to have 0 in front if single digit
-    const formatDate = (date) => { return ("0" + date.getDate()).slice(-2) }
-    // format month to have 0 in front if single digit
-    const formatMonth = (date) => { return ("0" + (date.getMonth() + 1)).slice(-2) }
+// format date to have 0 in front if single digit
+const formatDate = (date) => { return ("0" + date.getDate()).slice(-2) }
+// format month to have 0 in front if single digit
+const formatMonth = (date) => { return ("0" + (date.getMonth() + 1)).slice(-2) }
 
-    // Helps calculate the worth of  "numDays" days based on time 
-    const calculatedDays = (numDays) => {
-        return numDays * 24 * 60 * 60 * 1000;
-    }
+// Helps calculate the worth of  "numDays" days based on time 
+const calculatedDays = (numDays) => {
+    return numDays * 24 * 60 * 60 * 1000;
+}
