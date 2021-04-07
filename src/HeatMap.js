@@ -2,11 +2,12 @@ import React, { useState, useEffect } from 'react';
 import DataAdaptor from './DataAdaptor';
 import ReactApexChart from "react-apexcharts";
 import { console, Date, Promise } from "globalthis/implementation";
+import GetHeatMapMonth from './GetHeatMapMonth';
 
 export default function HeatMap(props) {
 
     const DAYS = 27 // used to help pick the soonest sunday 27 DAYS before current date
-    const DAYS_PER_WEEK = 7;
+
     const END_DATE = new Date();
     let START_DATE = new Date();
     let LABELS_IDX = {};
@@ -101,7 +102,9 @@ export default function HeatMap(props) {
             resolve(getStartDate(findNextSunday));
         }).then(() => { return DataAdaptor(props.type, START_DATE, END_DATE); })
         .then((res) => {
-            return createSeries(res);
+            // creates 4 weeks of data based on identifying the label with largest frequency
+            // data not available is returned as a string '-1'
+            return GetHeatMapMonth(res, LABELS_IDX);
         }).then((newSeries) => {
             console.log(newSeries);
             setState((prevState) => {
@@ -109,66 +112,6 @@ export default function HeatMap(props) {
             })
         })  
     }
-
-    // creates 4 weeks of data based on identifying the label with largest frequency
-    // data not available is returned as a string '-1'
-    const createSeries = ((data) =>{
-        const NUM_WEEKS = 4;
-        let series = []
-        const xLabel = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
-        let k = 0;
-        const data_keys = Object.keys(data);
-        const data_values = Object.values(data);
-        
-        for (let i=0; i<NUM_WEEKS; i++) {
-            let newRow = []
-            let newName = '';
-            
-            for (let j=0; j<DAYS_PER_WEEK; j++) {
-                // create dates on y axis
-                if (j === 0) {
-                    const dateEnd = new Date(new Date(data_keys[k]).getTime() + calculatedDays(7))
-                    newName = data_keys[k] + ' to ' + dateEnd.getFullYear() + '-' + formatMonth(dateEnd) + '-' + formatDate(dateEnd);
-                }
-                const labels = data_values[k]
-                newRow.push({
-                    x: xLabel[j],
-                    y: findMax(labels)
-                });
-                // increment one to iterate through all data values
-                k++;
-            }
-            series.push(
-                {
-                    name: newName,
-                    data: newRow
-                });
-            
-        }
-        console.log(series);
-        return series.reverse();
-    });
-
-    // if a label exists, find the most frequent label
-    const findMax = (labels) => {
-        let maxLabel = ['-1',-1]
-        if (labels) {
-            for (const key in labels) {
-                if (parseInt(labels[key]) > maxLabel[1]) {
-                    maxLabel = [key, labels[key]]
-                }
-            }
-            return LABELS_IDX[maxLabel[0]];
-        // return '-1' as a label if there is no data    
-        } else {
-            return LABELS_IDX['-1'];
-        }
-    }
-
-    // format date to have 0 in front if single digit
-    const formatDate = (date) => { return ("0" + date.getDate()).slice(-2) }
-    // format month to have 0 in front if single digit
-    const formatMonth = (date) => { return ("0" + (date.getMonth() + 1)).slice(-2) }
 
     // map prediction labels to a number
     const createLabelIdx = () => {
