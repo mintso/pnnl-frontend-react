@@ -2,9 +2,10 @@ import React, { useState, useEffect } from 'react';
 import DataAdaptor from './DataAdaptor';
 import ReactApexChart from "react-apexcharts";
 import { Date, Promise } from "globalthis/implementation";
-import GetHeatMapMonth from './GetHeatMapMonth';
+import GetHeatMapMonth from './GetHeatMapWeek';
 import moment from 'moment';
 import GetStartDate from './GetStartDate';
+import GetHeatMapWeek from './GetHeatMapWeek';
 
 export default function HeatMap(props) {
 
@@ -108,7 +109,7 @@ export default function HeatMap(props) {
         .then((res) => {
             // creates 4 weeks of data based on identifying the label with largest frequency
             // data not available is returned as a string '-1'
-            return GetHeatMapMonth(res, LABELS_IDX);
+            return getHeatMapMonth(res, LABELS_IDX);
         })
         .then((newSeries) => {
             setState((prevState) => {
@@ -116,6 +117,29 @@ export default function HeatMap(props) {
             })
         })  
     }
+
+    // Get 4 weeks of data
+    const getHeatMapMonth = (data, LABELS_IDX) => {
+        const NUM_WEEKS = 4;
+        // represents data for one week
+        let series = [] 
+
+        let dateIdx = 0;
+        // read all data, create computations for each week, return a "series" (month of data)
+        for (let i=0; i<NUM_WEEKS; i++) {
+            const data_keys = Object.keys(data);
+            const data_values = Object.values(data);
+            let weekResult = GetHeatMapWeek(data_keys, data_values, dateIdx, LABELS_IDX)
+            dateIdx = weekResult.updatedDateIdx;
+            let weekData = weekResult.weekData;
+            series.push(
+               weekData
+            );
+    }
+    return series.reverse(); 
+    }
+
+
 
     // map prediction labels to a number
     const createLabelIdx = () => {

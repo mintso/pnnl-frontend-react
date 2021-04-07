@@ -2,37 +2,33 @@ import moment from 'moment';
 const xLabel = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
 const DAYS_PER_WEEK = 7;
 
-export default  function GetHeatMapMonth(data, LABELS_IDX) { 
-    const NUM_WEEKS = 4;
-    let series = [] // represents data for one week
-    let k = 0;
-    for (let i=0; i<NUM_WEEKS; i++) {
+export default  function GetHeatMapWeek(data_keys, data_values, dateIdx, LABELS_IDX) { 
+
         let newRow = []
         let newName = '';
-        const data_keys = Object.keys(data);
-        const data_values = Object.values(data);
-        
+
         for (let j=0; j<DAYS_PER_WEEK; j++) {   // create dates on y axis
             
             if (j === 0) {
-                const dateEnd = moment(new Date(data_keys[k])).add(7, 'days').toDate();
-                newName = data_keys[k] + ' to ' + dateEnd.getFullYear() + '-' + formatMonth(dateEnd) + '-' + formatDate(dateEnd);
+                const dateEnd = moment(new Date(data_keys[dateIdx])).add(7, 'days').toDate();
+                newName = data_keys[dateIdx] + ' to ' + dateEnd.getFullYear() + '-' + formatMonth(dateEnd) + '-' + formatDate(dateEnd);
             }
-            const labels = data_values[k]
+            const labels = data_values[dateIdx]
             newRow.push({
                 x: xLabel[j],
                 y: findMax(labels, LABELS_IDX)
             });
-            k++; // increment one to iterate through all data values
+            dateIdx++; // increment one to iterate through all data values
         }
-        series.push(
-                {
-                    name: newName,
-                    data: newRow
-                }
-            );
-    }
-    return series.reverse();
+        const updatedDateIdx = dateIdx;
+
+        const weekData =  {
+            name: newName,
+            data: newRow
+        }
+
+        return {weekData, updatedDateIdx}
+
 }
 
 const findMax = (labels, LABELS_IDX) => { // if a label exists, find the most frequent label
