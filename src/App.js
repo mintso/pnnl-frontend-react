@@ -31,7 +31,7 @@ function App(): React.Component {
         </header>
       </div>
       <div className ="margins">
-	 <p className = "heading">Views</p>
+	 <p className = "heading">Labelled Data</p>
       	 <div style={{width: '200px'}}>
             <Select
               defaultValue = {{ label: "Pie Chart", value: <CalendarTableContainer /> }}
