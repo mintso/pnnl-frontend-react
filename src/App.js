@@ -39,17 +39,17 @@ function App(): React.Component {
                         <Link to="/hunting">Alerts</Link>
                     </li>
                 </ul>
+		<div className="App">
+                    <header className="App-header">
+                        <p>SEB Building</p>
+                    </header>
+                </div>
 
                 <hr/>
 
                 <Switch>
                     <Route exact path="/">
                         <div>
-                            <div className="App">
-                                <header className="App-header">
-                                    <p>SEB Building</p>
-                                </header>
-                            </div>
                             <div className="margins">
                                 <p className="heading">Labelled Data</p>
                                 <div style={{width: '200px'}}>
@@ -70,7 +70,10 @@ function App(): React.Component {
                         </div>
                     </Route>
                     <Route path="/hunting">
-                        <HuntingService/>
+			<div className="margins">
+			    <p className="heading">Alerts</p>
+                            <HuntingService/>
+			</div>
                     </Route>
                 </Switch>
             </div>
