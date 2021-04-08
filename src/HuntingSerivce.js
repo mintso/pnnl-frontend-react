@@ -47,9 +47,9 @@ export default function HuntingService(): React.Component {
 
     const body = (
         <div style={modalStyle} className={classes.paper}>
-            <h2 id="simple-modal-title">Detailed Information</h2>
+            <h2 id="simple-modal-title"></h2>
             <p id="simple-modal-description">
-                This is for detailed information.
+                Building Alert Details
             </p>
             <HuntingServiceModal />
         </div>
@@ -71,8 +71,8 @@ export default function HuntingService(): React.Component {
     ];
 
     const columns: GridColDef[] = [
-        {field: 'col1', headerName: 'Valve Name', width: 300},
-        {field: 'col2', headerName: 'Time', width: 300},
+        {field: 'col1', headerName: 'Device Name', width: 300},
+        {field: 'col2', headerName: 'Timestamp', width: 300},
         {
             field: 'col3', headerName: 'Detail', width: 300, renderCell: (params: GridCellParams) => (
                 <strong>
@@ -81,10 +81,11 @@ export default function HuntingService(): React.Component {
                             variant="contained"
                             color="primary"
                             size="small"
+                            font="serif"
                             style={{marginLeft: 16}}
                             onClick={handleOpen}
                         >
-                            Show Details
+                            Details
                         </Button>
                         <Modal
                             open={open}
