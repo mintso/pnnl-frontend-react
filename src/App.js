@@ -73,7 +73,6 @@ function App(): React.Component {
               </Switch>
           </div>
       </Router>
-
   );
 }
 

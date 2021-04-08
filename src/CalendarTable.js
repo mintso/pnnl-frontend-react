@@ -10,18 +10,19 @@ import TableRow from '@material-ui/core/TableRow';
 import PieChart from './PieChart';
 import DataAdaptor from './DataAdaptor';
 import moment from 'moment';
+import GetStartDate from './GetStartDate';
 
 const columns = [
+  'Sunday',
   'Monday',
   'Tuesday',
   'Wednesday',
   'Thursday',
   'Friday',
-  'Saturday',
-  'Sunday'
+  'Saturday'
 ];
 
-const rows = [0, 1, 2, 3, 4];
+const rows = [0, 1, 2, 3];
 
 const useStyles = makeStyles({
   root: {
@@ -29,13 +30,13 @@ const useStyles = makeStyles({
   },
 });
 
-const END_DATE = new Date();
-const START_DATE = new Date(END_DATE.getFullYear(), END_DATE.getMonth(), 1);
+const END_DATE = moment().subtract(1, 'days').toDate();
+const START_DATE = GetStartDate();
 
 export default function CalendarTable(props) {
+  
   const [datas, setDatas] = useState({});
   const classes = useStyles();
-
   useEffect(() => {
       getData();
   }, []);
@@ -44,13 +45,6 @@ export default function CalendarTable(props) {
     let res = await DataAdaptor(props.type, START_DATE, END_DATE);
     setDatas(res);
   }
-
-  const dummy = {
-    "Controlled Summer": "13",
-    "Controlled Winter": "18",
-    "Override Release": "17",
-    "Summer Occurrence": "18"
-  };
 
   return (
     <Paper className={classes.root}>
@@ -73,17 +67,31 @@ export default function CalendarTable(props) {
               return (
                 <TableRow hover role="checkbox" tabIndex={-1} key={row}>
                   {columns.map((column, i) => {
-                    const day = row * 7 + i + 1 - (7 + START_DATE.getDay() - 1) % 7;
-                    const date = new Date(END_DATE.getFullYear(), END_DATE.getMonth(), day);
-                    if (date.getMonth() !== END_DATE.getMonth()) {
-                      return (<TableCell key={i} />);
-                    }
+                    const day = row * 7 + i;
+                    const date = moment(START_DATE).add(day, 'days');
                     const string = moment(date).format('YYYY-MM-DD');
                     if (!(string in datas)) {
-                      return (<TableCell key={i}>
-                                <p>{string}</p>
-                              </TableCell>
-                              );
+                      return (<TableCell key={i} />);
+                    }
+                    if (Object.keys(datas[string]).length === 0 && datas[string].constructor === Object) {
+                      return (
+                          <TableCell key={i}>
+                            <div>
+                              <p>{string}</p>
+                              <p>No Data</p>
+                            </div>
+                          </TableCell>);
+                    }
+                    for (const label in datas[string]) {
+                      if (datas[string][label] === '-1') {
+                        return (
+                          <TableCell key={i}>
+                            <div>
+                              <p>{string}</p>
+                              <p>No Data</p>
+                            </div>
+                          </TableCell>);
+                      }
                     }
                     return (
                       <TableCell key={i}>
