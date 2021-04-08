@@ -2,8 +2,6 @@ import './App.css';
 import React, {useState} from 'react';
 import Select from 'react-select';
 import CalendarTable from './CalendarTable';
-import AirflowStackedChart from './AirflowStackedChart'
-import TemperatureStackedChart from "./TemperatureStackedChart";
 import CalendarTableContainer from './CalendarTableContainer';
 import StackChartContainer from './StackChartContainer';
 import HeatMapContainer from './HeatMapContainer';
