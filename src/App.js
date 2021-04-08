@@ -30,21 +30,23 @@ function App(): React.Component {
         <p >SEB Building</p>
         </header>
       </div>
-      <div style={{width: '200px'}}>
-        <Select placeholder="Select View"
-          defaultValue = {{ label: "Pie Chart", value: <CalendarTableContainer /> }}
-          options={Views}
-	  defaultValue = {{ label: "Pie Chart", value: <CalendarTable /> }}
-          onChange={handleChange} />
+      <div className ="margins">
+	 <p className = "heading">Labelled Data</p>
+      	 <div style={{width: '200px'}}>
+            <Select
+              defaultValue = {{ label: "Pie Chart", value: <CalendarTableContainer /> }}
+              options={Views}
+              onChange={handleChange} />
+         </div>
+	 <p> {selectedView} </p>
       </div>
-      <div>
-	      <p> {selectedView} </p>
+	<p></p>
+      <div className ="margins">
+	 <p className = "heading">Grafana Panels</p>
+          <iframe
+              src="https://ec2-3-140-252-185.us-east-2.compute.amazonaws.com:3000/d/pSc0RlYMzd/pnnl-seb-influx?orgId=1"
+              width="100%" height="700px"></iframe>
       </div>
-        <div>
-            <iframe
-                src="https://ec2-3-140-252-185.us-east-2.compute.amazonaws.com:3000/d/pSc0RlYMzd/pnnl-seb-influx?orgId=1"
-                width="100%" height="700px"></iframe>
-        </div>
     </div>
   );
 }
