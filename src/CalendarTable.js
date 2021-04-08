@@ -73,6 +73,15 @@ export default function CalendarTable(props) {
                     if (!(string in datas)) {
                       return (<TableCell key={i} />);
                     }
+                    if (Object.keys(datas[string]).length === 0 && datas[string].constructor === Object) {
+                      return (
+                          <TableCell key={i}>
+                            <div>
+                              <p>{string}</p>
+                              <p>No Data</p>
+                            </div>
+                          </TableCell>);
+                    }
                     for (const label in datas[string]) {
                       if (datas[string][label] === '-1') {
                         return (
