@@ -84,10 +84,7 @@ export default function TemperatureStackedChart() {
 
     return (
         <>
-            <div style={{display: 'flex', justifyContent: 'start', maxWidth: 800}}>
-                <div className='header'>
-                    <h3 className='title'>Zone Temperature</h3>
-                </div>
+            <div style={{margin: '10px', display: 'flex', justifyContent: 'start', maxWidth: 800}}>
                 <Bar data={temperatureData} options={options}/>
             </div>
         </>
