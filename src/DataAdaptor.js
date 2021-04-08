@@ -1,8 +1,8 @@
 import moment from 'moment';
 
 const DEFAULT_DATE = new Date(0);
-const ORIGINAL_URL = 'http://54.82.67.152:5000';
-
+// const ORIGINAL_URL = 'http://54.82.67.152:5000';
+const ORIGINAL_URL = 'https://www.pnnl-react-backend.tk';
 
 export default async function DataAdaptor(dataType, startDate, endDate = DEFAULT_DATE) {
 
