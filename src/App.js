@@ -36,7 +36,7 @@ function App(): React.Component {
                       <Link to="/">Home</Link>
                   </li>
                   <li>
-                      <Link to="/hunting">View Building Alerts</Link>
+                      <Link to="/hunting">Alerts</Link>
                   </li>
               </ul>
 

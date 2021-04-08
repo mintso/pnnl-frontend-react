@@ -72,3 +72,46 @@
     transform: rotate(360deg);
   }
 }
+
+body,html {
+  margin: 0;
+  font-family: serif;
+}
+
+ul {
+  padding: 0;
+  width: 50%;
+}
+
+li {
+  display: inline;
+}
+
+a {
+  outline: none;
+  text-decoration: none;
+  display: inline-block;
+  width: 12.5%;
+  margin-right: 0.625%;
+  text-align: center;
+  line-height: 3;
+  text-transform: uppercase;
+  color: rgb(25, 4, 145);
+}
+
+li:last-child a {
+  margin-right: 0;
+}
+
+a:link, a:visited, a:focus {
+  background: rgb(200, 210, 243); 
+}
+
+a:hover {
+  background:rgba(240, 238, 145, 0.575); 
+}
+
+a:active {
+  background: rgb(4, 42, 170);
+  color: white;
+}

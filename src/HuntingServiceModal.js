@@ -22,13 +22,13 @@ export default function HuntingServiceModal(): React.Component {
     ];
 
     const columns: GridColDef[] = [
-        {field: 'col1', headerName: 'Valve Name', width: 300},
-        {field: 'col2', headerName: 'Time', width: 300},
+        {field: 'col1', headerName: 'Device Name', width: 300},
+        {field: 'col2', headerName: 'Timestamp', width: 300},
         {field: 'col3', headerName: 'Value', width: 300},
     ];
 
     return (
-        <div style={{height: 800, width: '100%'}}>
+        <div style={{height: 800, width: '100%', fontFamily: 'serif'}}>
             <DataGrid rows={rows} columns={columns} />
         </div>
     );
