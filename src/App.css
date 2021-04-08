@@ -1,6 +1,7 @@
 .App {
   text-align: center;
-  background-color: #282c34;
+  background-color: rgb(18, 55, 134);
+  font-family: serif;
 }
 
 .App-logo {
@@ -21,21 +22,26 @@
 
 
 .border {
-  border: 2px solid black;
+  border: 2px solid rgb(193, 210, 247);
 }
 
 .title{
   margin-left: 10px;
   margin-right: 10px;
   font-weight: bold;
+  font-family: serif;
 }
 
 .heading{
   font-size: calc(10px + 2vmin);
-  text-decoration: underline;
-  font-weight: bold;
+  color: rgb(10, 10, 131);
+  font-size: x-large;
+  text-align: center;
+  font-family: serif;
+  font-size: 24px;
+  border: 2px solid rgb(209, 221, 247);
+  background-color: rgb(218, 229, 252);
 }
-
 
 .App-header {
   /* min-height: 100vh; */
@@ -47,6 +53,11 @@
   font-size: calc(10px + 2vmin);
   color: white;
   font-weight: bold;
+  font-size: 30px;
+  text-align: center;
+  font-style: italic;
+  text-transform: uppercase;
+  font-family: serif;
 }
 
 .App-link {
