@@ -53,17 +53,15 @@ function App(): React.Component {
 
                 <Switch>
                     <Route exact path="/">
-                        <div>
-                            <div className="margins">
-                                <p className="heading">Labelled Data</p>
-                                <div style={{width: '200px'}}>
-                                    <Select
-                                        defaultValue={{label: "Pie Chart", value: <CalendarTableContainer/>}}
-                                        options={Views}
-                                        onChange={handleChange}/>
-                                </div>
-                                <p> {selectedView} </p>
+                        <div className="margins">
+                            <p className="heading">Labelled Data</p>
+                            <div style={{width: '200px'}}>
+                                <Select
+                                    defaultValue={{label: "Pie Chart", value: <CalendarTableContainer/>}}
+                                    options={Views}
+                                    onChange={handleChange}/>
                             </div>
+                            <p> {selectedView} </p>
                         </div>
                     </Route>
                     <Route path="/hunting">
