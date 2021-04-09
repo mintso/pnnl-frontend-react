@@ -64,7 +64,6 @@ function App(): React.Component {
                                 </div>
                                 <p> {selectedView} </p>
                             </div>
-                            <p></p>
                         </div>
                     </Route>
                     <Route path="/hunting">
