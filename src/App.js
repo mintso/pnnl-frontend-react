@@ -19,6 +19,7 @@ const Views = [
     {label: "Heat Map", value: <HeatMapContainer/>}
 ];
 
+const grafanaLink = "http://ec2-3-140-252-185.us-east-2.compute.amazonaws.com:3000/d/pSc0RlYMzd/pnnl-seb-influx?orgId=1"
 
 function App(): React.Component {
 
@@ -37,6 +38,9 @@ function App(): React.Component {
                     </li>
                     <li>
                         <Link to="/hunting">Alerts</Link>
+                    </li>
+                    <li>
+                        <a href={grafanaLink} target="_blank">Grafana</a>
                     </li>
                 </ul>
 		<div className="App">
@@ -61,12 +65,6 @@ function App(): React.Component {
                                 <p> {selectedView} </p>
                             </div>
                             <p></p>
-                            <div className="margins">
-                                <p className="heading">Grafana Panels</p>
-                                <iframe
-                                    src="https://ec2-3-140-252-185.us-east-2.compute.amazonaws.com:3000/d/pSc0RlYMzd/pnnl-seb-influx?orgId=1"
-                                    width="100%" height="700px"></iframe>
-                            </div>
                         </div>
                     </Route>
                     <Route path="/hunting">
