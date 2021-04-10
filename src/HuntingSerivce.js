@@ -102,7 +102,7 @@ export default function HuntingService(): React.Component {
     ];
 
     return (
-        <div style={{height: 800, width: '100%'}}>
+        <div className="border" style={{height: 800, width: '100%'}}>
             <DataGrid rows={rows} columns={columns} filterModel={{
                 items: [
                     {columnField: 'col1', operatorValue: 'contains', value: 'VAV'},

@@ -43,32 +43,32 @@ function App(): React.Component {
                         <a href={grafanaLink} target="_blank">Grafana</a>
                     </li>
                 </ul>
+		<div className="App">
+                    <header className="App-header">
+                        <p>SEB Building</p>
+                    </header>
+                </div>
 
                 <hr/>
 
                 <Switch>
                     <Route exact path="/">
-                        <div>
-                            <div className="App">
-                                <header className="App-header">
-                                    <p>SEB Building</p>
-                                </header>
+                        <div className="margins">
+                            <p className="heading">Labelled Data</p>
+                            <div style={{width: '200px'}}>
+                                <Select
+                                    defaultValue={{label: "Pie Chart", value: <CalendarTableContainer/>}}
+                                    options={Views}
+                                    onChange={handleChange}/>
                             </div>
-                            <div className="margins">
-                                <p className="heading">Labelled Data</p>
-                                <div style={{width: '200px'}}>
-                                    <Select
-                                        defaultValue={{label: "Pie Chart", value: <CalendarTableContainer/>}}
-                                        options={Views}
-                                        onChange={handleChange}/>
-                                </div>
-                                <p> {selectedView} </p>
-                            </div>
-                            <p></p>
+                            <p> {selectedView} </p>
                         </div>
                     </Route>
                     <Route path="/hunting">
-                        <HuntingService/>
+			<div className="margins">
+			    <p className="heading">Alerts</p>
+                            <HuntingService/>
+			</div>
                     </Route>
                 </Switch>
             </div>
