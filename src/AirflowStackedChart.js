@@ -45,13 +45,13 @@ export default function AirflowStackedChart() {
         airflowDateArray.push(key);
         for(const key2 in airFlowDataObject[key]) {
             if(key2 === 'Normal Operation') {
-                normalOperationArray.push(airFlowDataObject[key][key2]);
+                airFlowDataObject[key][key2] < 0? normalOperationArray.push(0) : normalOperationArray.push(airFlowDataObject[key][key2])
             } else if(key2 === 'Hunting') {
-                huntingArray.push(airFlowDataObject[key][key2]);
+                airFlowDataObject[key][key2] < 0? huntingArray.push(0) : huntingArray.push(airFlowDataObject[key][key2]);
             } else if(key2 === 'Constant') {
-                constantArray.push(airFlowDataObject[key][key2]);
+                airFlowDataObject[key][key2] < 0? constantArray.push(0) : constantArray.push(airFlowDataObject[key][key2]);
             } else if(key2 === 'Override') {
-                overrideArray.push(airFlowDataObject[key][key2]);
+                airFlowDataObject[key][key2] < 0? overrideArray.push(0) : overrideArray.push(airFlowDataObject[key][key2]);
             }
         }
     }

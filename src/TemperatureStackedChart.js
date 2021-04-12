@@ -44,13 +44,13 @@ export default function TemperatureStackedChart() {
         tempDateArray.push(key);
         for(const key2 in tempDataObject[key]) {
             if(key2 === 'Summer Occurrence') {
-                summerOccurrenceArray.push(tempDataObject[key][key2]);
+                tempDataObject[key][key2] < 0? summerOccurrenceArray.push(0): summerOccurrenceArray.push(tempDataObject[key][key2]);
             } else if(key2 === 'Controlled Winter') {
-                controlledWinterArray.push(tempDataObject[key][key2]);
+                tempDataObject[key][key2] < 0? controlledWinterArray.push(0): controlledWinterArray.push(tempDataObject[key][key2]);
             } else if(key2 === 'Controlled Summer') {
-                controlledSummerArray.push(tempDataObject[key][key2]);
+                tempDataObject[key][key2] < 0? controlledSummerArray.push(0): controlledSummerArray.push(tempDataObject[key][key2]);
             } else if(key2 === 'Override Release') {
-                overrideReleaseArray.push(tempDataObject[key][key2]);
+                tempDataObject[key][key2] < 0? overrideReleaseArray.push(0): overrideReleaseArray.push(tempDataObject[key][key2]);
             }
         }
     }
