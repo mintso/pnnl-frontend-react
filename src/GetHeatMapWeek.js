@@ -2,7 +2,7 @@ import moment from 'moment';
 const xLabel = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
 const DAYS_PER_WEEK = 7;
 
-export default  function GetHeatMapWeek(data_keys, data_values, dateIdx, LABELS_IDX) { 
+export default function GetHeatMapWeek(data_keys, data_values, dateIdx, LABELS_IDX) { 
 
         let newRow = []
         let newName = '';
