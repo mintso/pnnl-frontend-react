@@ -34,18 +34,16 @@ function rand() {
 }
 
 export default function HuntingService(): React.Component {
-    const [open, setOpen] = React.useState(false);
     const [openIdx, setOpenIdx] = React.useState(-1);
     const classes = useStyles();
     const [modalStyle] = React.useState(getModalStyle);
 
-    const handleOpen = () => {
-        setOpen(true);
-
+    const handleOpen = (id) => {
+        setOpenIdx(id);
     };
 
     const handleClose = () => {
-        setOpen(false);
+        setOpenIdx(-1);
     };
 
     const dataset = [];
@@ -55,6 +53,7 @@ export default function HuntingService(): React.Component {
         if (parts[1] == null) continue;
         const deviceName = parts[1].toUpperCase();
         const timeStamp = parts[0];
+        const currentNum = i;
         const detailButton =
             (
                 <>
@@ -64,12 +63,12 @@ export default function HuntingService(): React.Component {
                         size="small"
                         font="serif"
                         style={{marginLeft: 16}}
-                        onClick={handleOpen}
+                        onClick={() => handleOpen(currentNum)}
                     >
                         Details
                     </Button>
                     <Modal
-                        open={open}
+                        open={openIdx == currentNum? true : false}
                         onClose={handleClose}
                         aria-labelledby="simple-modal-title"
                         aria-describedby="simple-modal-description"
