@@ -3,11 +3,20 @@ import React from 'react';
 import {DataGrid, GridRowsProp, GridColDef} from '@material-ui/data-grid';
 import {GridCellParams} from "@material-ui/data-grid";
 import {Button, makeStyles, Modal} from "@material-ui/core";
-import HuntingServiceModal from './HuntingServiceModal'
+import HuntingServiceModal from './HuntingServiceModal';
 
-function rand() {
-    return Math.round(Math.random() * 20) - 10;
-}
+const data = require('./huntingServiceData.json');
+
+const useStyles = makeStyles((theme) => ({
+    paper: {
+        position: 'absolute',
+        width: 1300,
+        backgroundColor: theme.palette.background.paper,
+        border: '2px solid #000',
+        boxShadow: theme.shadows[5],
+        padding: theme.spacing(2, 4, 3),
+    },
+}));
 
 function getModalStyle() {
     const top = 50 + rand();
@@ -20,56 +29,72 @@ function getModalStyle() {
     };
 }
 
-const useStyles = makeStyles((theme) => ({
-    paper: {
-        position: 'absolute',
-        width: 1000,
-        backgroundColor: theme.palette.background.paper,
-        border: '2px solid #000',
-        boxShadow: theme.shadows[5],
-        padding: theme.spacing(2, 4, 3),
-    },
-}));
-
+function rand() {
+    return Math.round(Math.random() * 20) - 10;
+}
 
 export default function HuntingService(): React.Component {
+    const [open, setOpen] = React.useState(false);
+    const [openIdx, setOpenIdx] = React.useState(-1);
     const classes = useStyles();
     const [modalStyle] = React.useState(getModalStyle);
-    const [open, setOpen] = React.useState(false);
 
     const handleOpen = () => {
         setOpen(true);
+
     };
 
     const handleClose = () => {
         setOpen(false);
     };
 
-    const body = (
-        <div style={modalStyle} className={classes.paper}>
-            <h2 id="simple-modal-title"></h2>
-            <p id="simple-modal-description">
-                Building Alert Details
-            </p>
-            <HuntingServiceModal />
-        </div>
-    );
+    const dataset = [];
+    let i = 1;
+    for (let x in data) {
+        const parts = x.split(' - ', 2);
+        if (parts[1] == null) continue;
+        const deviceName = parts[1].toUpperCase();
+        const timeStamp = parts[0];
+        const detailButton =
+            (
+                <>
+                    <Button
+                        variant="contained"
+                        color="primary"
+                        size="small"
+                        font="serif"
+                        style={{marginLeft: 16}}
+                        onClick={handleOpen}
+                    >
+                        Details
+                    </Button>
+                    <Modal
+                        open={open}
+                        onClose={handleClose}
+                        aria-labelledby="simple-modal-title"
+                        aria-describedby="simple-modal-description"
+                    >
+                        <div style={modalStyle} className={classes.paper}>
+                            <h2 id="simple-modal-title"></h2>
+                            <p id="simple-modal-description">
+                                Building Alert Details
+                            </p>
+                            <HuntingServiceModal data={data[x]}/>
+                        </div>
+                    </Modal>
+                </>
+            );
 
-    const rows: GridRowsProp = [
-        {id: 1, col1: 'VAV100', col2: '2021-04-02T10:31:00.000+00:00' },
-        {id: 2, col1: 'VAV100', col2: '2021-04-02T10:35:00.000+00:00' },
-        {id: 3, col1: 'VAV100', col2: '2021-04-02T10:36:00.000+00:00' },
-        {id: 4, col1: 'VAV100', col2: '2021-04-02T10:38:00.000+00:00' },
-        {id: 5, col1: 'VAV100', col2: '2021-04-02T10:40:00.000+00:00' },
-        {id: 6, col1: 'VAV100', col2: '2021-04-02T10:42:00.000+00:00' },
-        {id: 7, col1: 'VAV100', col2: '2021-04-02T10:44:00.000+00:00' },
-        {id: 8, col1: 'VAV100', col2: '2021-04-02T11:31:00.000+00:00' },
-        {id: 9, col1: 'VAV100', col2: '2021-04-02T11:31:00.000+00:00' },
-        {id: 10, col1: 'VAV100', col2: '2021-04-02T11:40:00.000+00:00' },
-        {id: 11, col1: 'VAV100', col2: '2021-04-02T11:50:00.000+00:00' },
-        {id: 12, col1: 'VAV110', col2: '2021-04-02T12:00:00.000+00:00' },
-    ];
+        dataset.push({
+            id: i,
+            col1: deviceName,
+            col2: timeStamp,
+            col3: detailButton
+        });
+        i++;
+    }
 
+    const rows: GridRowsProp = dataset;
     const columns: GridColDef[] = [
         {field: 'col1', headerName: 'Device Name', width: 300},
         {field: 'col2', headerName: 'Timestamp', width: 300},
@@ -77,24 +102,7 @@ export default function HuntingService(): React.Component {
             field: 'col3', headerName: 'Detail', width: 300, renderCell: (params: GridCellParams) => (
                 <strong>
                     <div>
-                        <Button
-                            variant="contained"
-                            color="primary"
-                            size="small"
-                            font="serif"
-                            style={{marginLeft: 16}}
-                            onClick={handleOpen}
-                        >
-                            Details
-                        </Button>
-                        <Modal
-                            open={open}
-                            onClose={handleClose}
-                            aria-labelledby="simple-modal-title"
-                            aria-describedby="simple-modal-description"
-                        >
-                            {body}
-                        </Modal>
+                        {params.value}
                     </div>
                 </strong>
             ),
@@ -107,7 +115,7 @@ export default function HuntingService(): React.Component {
                 items: [
                     {columnField: 'col1', operatorValue: 'contains', value: 'VAV'},
                 ],
-            }} hideFooter={true} />
+            }} hideFooter={true}/>
         </div>
     );
 }

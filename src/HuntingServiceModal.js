@@ -3,33 +3,40 @@ import React from 'react';
 import {DataGrid, GridRowsProp, GridColDef} from '@material-ui/data-grid';
 
 
-export default function HuntingServiceModal(): React.Component {
+export default function HuntingServiceModal(props): React.Component {
 
+    let i = 1;
+    const dataset = [];
 
-    const rows: GridRowsProp = [
-        {id: 1, col1: 'VAV100', col2: '2021-04-02T10:31:00.000+00:00', col3: '76.0'},
-        {id: 2, col1: 'VAV100', col2: '2021-04-02T10:35:00.000+00:00', col3: '76.0'},
-        {id: 3, col1: 'VAV100', col2: '2021-04-02T10:36:00.000+00:00', col3: '76.0'},
-        {id: 4, col1: 'VAV100', col2: '2021-04-02T10:38:00.000+00:00', col3: '76.0'},
-        {id: 5, col1: 'VAV100', col2: '2021-04-02T10:40:00.000+00:00', col3: '76.0'},
-        {id: 6, col1: 'VAV100', col2: '2021-04-02T10:42:00.000+00:00', col3: '76.0'},
-        {id: 7, col1: 'VAV100', col2: '2021-04-02T10:44:00.000+00:00', col3: '76.0'},
-        {id: 8, col1: 'VAV100', col2: '2021-04-02T11:31:00.000+00:00', col3: '76.0'},
-        {id: 9, col1: 'VAV100', col2: '2021-04-02T11:31:00.000+00:00', col3: '76.0'},
-        {id: 10, col1: 'VAV100', col2: '2021-04-02T11:40:00.000+00:00', col3: '76.0'},
-        {id: 11, col1: 'VAV100', col2: '2021-04-02T11:50:00.000+00:00', col3: '76.0'},
-        {id: 12, col1: 'VAV110', col2: '2021-04-02T12:00:00.000+00:00', col3: '76.0'},
-    ];
+    for(let x in props.data){
+        const upperBound = props.data[x]['zoneCoolingTemperatureSetPoint'];
+        const LowerBound = props.data[x]['zoneHeatingTemperatureSetPoint'];
+        const currentTemp = props.data[x]['zoneTemperature'];
+        const status = currentTemp < LowerBound? "Below zone temperature heating setpoint" : currentTemp > upperBound?
+            "Above zone temperature cooling setpoint" : "";
+
+        dataset.push({
+            id: i,
+            col1 : props.data[x]['vavName'],
+            col2 : props.data[x]['time'],
+            col3 : props.data[x]['zoneTemperature'],
+            col4 : status
+        });
+        i++;
+    }
+
+    const rows: GridRowsProp = dataset;
 
     const columns: GridColDef[] = [
         {field: 'col1', headerName: 'Device Name', width: 300},
         {field: 'col2', headerName: 'Timestamp', width: 300},
         {field: 'col3', headerName: 'Value', width: 300},
+        {field: 'col4', headerName: 'Zone Temperature Status', width: 300},
     ];
 
     return (
         <div style={{height: 800, width: '100%', fontFamily: 'serif'}}>
-            <DataGrid rows={rows} columns={columns} />
+            <DataGrid rows={rows} columns={columns}/>
         </div>
     );
 }
