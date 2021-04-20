@@ -83,7 +83,6 @@ export default function HuntingService(): React.Component {
                     </Modal>
                 </>
             );
-        console.log(openIdx);
 
         dataset.push({
             id: i,
