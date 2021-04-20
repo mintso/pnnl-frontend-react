@@ -1,7 +1,8 @@
 import moment from 'moment';
+import { PREDICTIONS_API_URL } from './config';
 
 const DEFAULT_DATE = new Date(0);
-const ORIGINAL_URL = 'https://www.pnnl-react-backend.tk';
+const ORIGINAL_URL = PREDICTIONS_API_URL;
 
 export default async function DataAdaptor(dataType, startDate, endDate = DEFAULT_DATE) {
 
