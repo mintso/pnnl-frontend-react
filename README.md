@@ -27,15 +27,15 @@ The heat map shows the data from the last 4 weeks(start from Sunday). The airflo
 Alerts(Hunting Service)
 ### Alerts
 ![](images/react-fe-alerts.png)
-The page presents the device, timestamp of the hunting alerts. Users can use the button at the top left to filter.
+The page presents the device, timestamp of the hunting alerts. Users can use### the button at the top left to filter.
 Datasource
 All of the data is from a URL.
-Detail
+### Details
 
 By clicking the DETAILS button on each row, users can get the detail of the abnormal moments.
-Relationship With Other Services:
-Directions:
-Additional Notes:  
+### Relationship With Other Services:
+### Directions:
+### Additional Notes:  
 
 # Getting Started with Create React App
 
