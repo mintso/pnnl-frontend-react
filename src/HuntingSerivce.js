@@ -45,7 +45,6 @@ export default function HuntingService(): React.Component {
         let data = await HuntingServiceDataAdaptor();
         setHuntingSerivceData(data);
     }
-    console.log(huntingServiceData);
 
     const handleOpen = (id) => {
         setOpenIdx(id);
