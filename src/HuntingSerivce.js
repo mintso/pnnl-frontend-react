@@ -1,11 +1,10 @@
 import './App.css';
-import React from 'react';
+import React, {useEffect} from 'react';
 import {DataGrid, GridRowsProp, GridColDef} from '@material-ui/data-grid';
 import {GridCellParams} from "@material-ui/data-grid";
 import {Button, makeStyles, Modal} from "@material-ui/core";
 import HuntingServiceModal from './HuntingServiceModal';
-
-const data = require('./huntingServiceData.json');
+import HuntingServiceDataAdaptor from "./HuntingServiceDataAdaptor";
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -34,9 +33,19 @@ function rand() {
 }
 
 export default function HuntingService(): React.Component {
+    const [huntingServiceData, setHuntingSerivceData] = React.useState({});
     const [openIdx, setOpenIdx] = React.useState(-1);
     const classes = useStyles();
     const [modalStyle] = React.useState(getModalStyle);
+    useEffect(() => {
+        getData();
+    }, []);
+
+    const getData = async () => {
+        let data = await HuntingServiceDataAdaptor();
+        setHuntingSerivceData(data);
+    }
+    console.log(huntingServiceData);
 
     const handleOpen = (id) => {
         setOpenIdx(id);
@@ -48,7 +57,7 @@ export default function HuntingService(): React.Component {
 
     const dataset = [];
     let i = 1;
-    for (let x in data) {
+    for (let x in huntingServiceData) {
         const parts = x.split(' - ', 2);
         if (parts[1] == null) continue;
         const deviceName = parts[1].toUpperCase();
@@ -78,7 +87,7 @@ export default function HuntingService(): React.Component {
                             <p id="simple-modal-description">
                                 Building Alert Details
                             </p>
-                            <HuntingServiceModal data={data[x]}/>
+                            <HuntingServiceModal data={huntingServiceData[x]}/>
                         </div>
                     </Modal>
                 </>
