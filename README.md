@@ -26,7 +26,7 @@ The stacked bar shows the data from the latest week. The airflow and the tempera
 The heat map shows the data from the last 4 weeks(start from Sunday). The airflow and the temperature are two separated channels. The label with highest frequency is presented each day.
 Alerts(Hunting Service)
 ### Alerts
-![](react-fe-alerts.png)
+![](images/react-fe-alerts.png)
 The page presents the device, timestamp of the hunting alerts. Users can use the button at the top left to filter.
 Datasource
 All of the data is from a URL.
